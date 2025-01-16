@@ -18,7 +18,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Отправляем сообщение с кнопками
     await update.message.reply_text(
-        f"Добрый день, {update.effective_user.first_name}! Добро пожаловать! Вас приветствует Генеральное консульство Республики Казахстан в городе Пусан.\n"
+               f"Қайырлы күн/Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать! \n 
+               Вас приветствует Генеральное консульство Республики Казахстан в городе Пусан.\n"
         "Чем мы можем вам помочь?",
         reply_markup=reply_markup
     )
