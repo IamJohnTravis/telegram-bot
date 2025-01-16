@@ -1,5 +1,5 @@
-from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
@@ -18,19 +18,24 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Отправляем сообщение с кнопками
     await update.message.reply_text(
-        f"Привет, {update.effective_user.first_name}! Добро пожаловать! 🎉\n"
-        "Чем я могу вам помочь?",
+        f"Привет, {update.effective_user.first_name}! Добро пожаловать! Вас приветствует Генеральное консульство Республики Казахстан в городе Пусан\n"
+        "Чем мы можем вам помочь?",
         reply_markup=reply_markup
     )
 
-# Основной блок для запуска бота
-if __name__ == "__main__":
-    # Создание приложения
-    app = ApplicationBuilder().token(TOKEN).build()
+# Функция для обработки выбора пользователя
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
 
-    # Добавление обработчика команды /start
-    app.add_handler(CommandHandler("start", start))
-
-    print("Бот запущен! Нажмите Ctrl+C для остановки.")
-    # Запуск бота
-    app.run_polling()
+    if text == "1 Часто задаваемые вопросы":
+        await update.message.reply_text("Вы выбрали 'Часто задаваемые вопросы'. Вот что я могу рассказать...")
+    elif text == "2 Контакты":
+        # Отправляем ссылку на официальный сайт
+        await update.message.reply_text(
+            "Вот ссылка на наш официальный сайт:\n"
+            "https://www.gov.kz/memleket/entities/mfa-busan"
+        )
+    elif text == "3 Назад в главное меню":
+        await start(update, context)  # Возвращаемся к меню
+    else:
+        await 
