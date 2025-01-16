@@ -38,4 +38,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == "3 Назад в главное меню":
         await start(update, context)  # Возвращаемся к меню
     else:
-        await 
+ await update.message.reply_text(
+            "Вот ссылка на наш официальный сайт:\n"
+            "https://www.gov.kz/memleket/entities/mfa-busan"
