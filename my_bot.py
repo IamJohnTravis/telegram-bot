@@ -6,11 +6,9 @@ TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Кнопки для главного меню
+    # Кнопки для выбора языка
     keyboard = [
-        ["1 Часто задаваемые вопросы"],  # Первая строка кнопок
-        ["2 Контакты"],  # Вторая строка кнопок
-        ["3 Назад в главное меню"],  # Третья строка кнопок
+        ["Қазақша", "Русский"]  # Две кнопки для выбора языка
     ]
 
     # Создаём клавиатуру
@@ -24,57 +22,111 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=reply_markup
     )
 
-# Функция для раздела "Часто задаваемые вопросы"
-async def show_faq(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Кнопки для раздела "Часто задаваемые вопросы"
+# Функция для меню на казахском языке
+async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-        ["Паспорт"],  # Первая строка кнопок
-        ["Регистрация рождения ребенка"],  # Вторая строка кнопок
-        ["Регистрация брака"],  # Третья строка кнопок
-        ["Назад в главное меню"],  # Кнопка для возврата в главное меню
+        ["Байланыс ақпараты"],
+        ["Консулдық мәселелер"],
+        ["Жұмыс уақыты"],
+        ["Өтініш нысандары"],
+        ["Вернуться меню"]
     ]
-
-    # Создаём клавиатуру
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+    await update.message.reply_text("Сіз Қазақ тілін таңдадыңыз. Төмендегі мәзірден таңдаңыз:", reply_markup=reply_markup)
 
-    # Отправляем сообщение с кнопками
+# Функция для "Байланыс ақпараты"
+async def contact_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Вы выбрали 'Часто задаваемые вопросы'. Пожалуйста, выберите интересующий вас пункт:",
-        reply_markup=reply_markup
+        "Қазақстан Республикасының Пусан қаласындағы Бас Консулдығы (Корея Республикасы)\n"
+        "Мекенжай: Пусан қ. 244, Jungang-daero, Dong-gu (48732)\n"
+        "Тел: +(82 51) 466 7001, \n"
+        "Консулдық бөлім: +(82 51) 469 7003\n"
+        "E-mail: busan@mfa.kz",
+        reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
+    )
+
+# Функция для "Консулдық мәселелер"
+async def consular_issues(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [
+        ["ҚР азаматының паспортын ресімдеу"],
+        ["Шетелде баланың тууын мемлекеттік тіркеу"],
+        ["Шетелде неке қиюды мемлекеттік тіркеу"],
+        ["Шетелде некені бұзуды мемлекеттік тіркеу"],
+        ["Шетелде қайтыс болуды мемлекеттік тіркеу"],
+        ["ҚР-ге оралуға арналған куәлікті ресімдеу"],
+        ["Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу"],
+        ["Қайталама куәліктер мен анықтамаларды есепке алу"],
+        ["Консулдық есеп"],
+        ["Назад"]
+    ]
+    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+    await update.message.reply_text("Консулдық мәселелер тізімі:", reply_markup=reply_markup)
+
+# Функция для обработки выбора консулдық мәселелер
+async def handle_consular_issues(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    links = {
+        "ҚР азаматының паспортын ресімдеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58636",
+        "Шетелде баланың тууын мемлекеттік тіркеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58636",
+        "Шетелде неке қиюды мемлекеттік тіркеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181311?directionId=_58636",
+        "Шетелде некені бұзуды мемлекеттік тіркеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181316?directionId=_58636",
+        "Шетелде қайтыс болуды мемлекеттік тіркеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181314?directionId=_58636",
+        "ҚР-ге оралуға арналған куәлікті ресімдеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181317?directionId=_58636",
+        "Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181315?directionId=_58636",
+        "Қайталама куәліктер мен анықтамаларды есепке алу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181313?directionId=_58636",
+        "Консулдық есеп": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181310?directionId=_58636"
+    }
+    text = update.message.text
+    if text in links:
+        await update.message.reply_text(f"Толығырақ мына сілтемеден көріңіз: {links[text]}")
+    elif text == "Назад":
+        await consular_issues(update, context)
+
+# Функция для "Жұмыс уақыты"
+async def working_hours(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "Жұмыс тәртібі:\n"
+        "Келушілерді консулдық мәселелер бойынша қабылдау дүйсенбі, сейсенбі, бейсенбі және жұма күндері сағат 9.30-ден 12.30-ге және 16.00-ден 17.00-ге дейін жүзеге асырылады.\n"
+        "Сәрсенбі күні — қабылдамайтын күн.\n"
+        "Сенбі және жексенбі күндері, сондай-ақ Қазақстан мереке күндері - демалыс күні."
+    )
+
+# Функция для "Өтініш нысандары"
+async def forms(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "Өтініш нысандарын мына жерден жүктей аласыз:\n"
+        "https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk",
+        reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
     )
 
 # Функция для обработки выбора пользователя
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
 
-    if text == "1 Часто задаваемые вопросы":
-        await show_faq(update, context)  # Переходим в раздел FAQ
-    elif text == "2 Контакты":
-        # Отправляем ссылку на официальный сайт
-        await update.message.reply_text(
-            "Вот ссылка на наш официальный сайт:\n"
-            "https://www.gov.kz/memleket/entities/mfa-busan\n\n"
-            "Генеральное консульство Республики Казахстан в г. Пусан (Республика Корея):\n"
-            "Адрес: г. Пусан 244, Jungang-daero, Dong-gu (48732)\n"
-            "Тел: +(82 51) 466 7001, Консульский отдел: +(82 51) 469 7003\n"
-            "Эл. Почта: busan@mfa.kz\n\n"
-            "Режим работы:\n"
-            "Прием посетителей по консульским вопросам осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.\n"
-            "Среда — неприемный день.\n"
-            "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни."
-        )
-    elif text == "Паспорт":
-        await update.message.reply_text(
-            "Информация о паспорте: ... (добавьте нужный текст)"
-        )
-    elif text == "Регистрация рождения ребенка":
-        await update.message.reply_text("Информация о регистрации рождения ребенка: ... (добавьте нужный текст)")
-    elif text == "Регистрация брака":
-        await update.message.reply_text("Информация о регистрации брака: ... (добавьте нужный текст)")
-    elif text == "Назад в главное меню":
-        await start(update, context)  # Возвращаемся к главному меню
-    else:
-        await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
+    if text == "Қазақша":
+        await kazakh_menu(update, context)
+    elif text == "Байланыс ақпараты":
+        await contact_info(update, context)
+    elif text == "Консулдық мәселелер":
+        await consular_issues(update, context)
+    elif text in [
+        "ҚР азаматының паспортын ресімдеу",
+        "Шетелде баланың тууын мемлекеттік тіркеу",
+        "Шетелде неке қиюды мемлекеттік тіркеу",
+        "Шетелде некені бұзуды мемлекеттік тіркеу",
+        "Шетелде қайтыс болуды мемлекеттік тіркеу",
+        "ҚР-ге оралуға арналған куәлікті ресімдеу",
+        "Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу",
+        "Қайталама куәліктер мен анықтамаларды есепке алу",
+        "Консулдық есеп",
+        "Назад"
+    ]:
+        await handle_consular_issues(update, context)
+    elif text == "Жұмыс уақыты":
+        await working_hours(update, context)
+    elif text == "Өтініш нысандары":
+        await forms(update, context)
+    elif text == "Вернуться меню":
+        await start(update, context)
 
 # Основной блок для запуска бота
 if __name__ == "__main__":
