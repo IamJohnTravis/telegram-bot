@@ -1,8 +1,12 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+import os
 
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
+
+# Порт для работы вебхуков
+PORT = int(os.environ.get("PORT", 8443))
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -142,4 +146,28 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Консулдық есеп",
         "Бастапқы бетке оралу"
     ]:
-        await handle_consular
+        await handle_consular_issues_russian(update, context)
+    elif text == "Время работы":
+        await working_hours_russian(update, context)
+    elif text == "Шаблоны заявлений":
+        await forms_russian(update, context)
+    elif text == "Вернуться в главное меню":
+        await start(update, context)
+
+# Основной блок для запуска бота
+if __name__ == "__main__":
+    # Создание приложения
+    app = ApplicationBuilder().token(TOKEN).build()
+
+    # Добавляем обработчики команд и сообщений
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
+    # Настройка вебхуков
+    WEBHOOK_URL = f"https://<your-render-url>.onrender.com/{TOKEN}"
+    
+    async def setup_webhook():
+        await app.bot.set_webhook(WEBHOOK_URL)
+
+    # Запуск приложения с вебхуком
+    app.run_webhook(listen="0.0.0.0", port=PORT, webhook_path=f"/{TOKEN}")
