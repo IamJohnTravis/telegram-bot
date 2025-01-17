@@ -133,7 +133,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Среда — неприемный день.\n"
             "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни."
         )
-       elif text == "Шаблоны заявлений":
+           elif text == "Шаблоны заявлений":
         await update.message.reply_text(
             "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru",
             reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
@@ -149,6 +149,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Эл. Почта: busan@mfa.kz",
             reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
         )
+
 
     elif text == "Оформление паспорта гражданина РК":
         await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58637")
