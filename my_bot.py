@@ -18,8 +18,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Отправляем сообщение с кнопками
     await update.message.reply_text(
-               f"Қайырлы күн/Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать! 
-               Вас приветствует Генеральное консульство Республики Казахстан в городе Пусан.\n"
+        f"Қайырлы күн/Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать! "
+        "Вас приветствует Генеральное консульство Республики Казахстан в городе Пусан.\n"
         "Чем мы можем вам помочь?",
         reply_markup=reply_markup
     )
@@ -64,7 +64,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни."
         )
     elif text == "Паспорт":
-        await update.message.reply_text("Информация о паспорте: ... (добавьте нужный текст)")
+        await update.message.reply_text(
+            "Информация о паспорте: ... (добавьте нужный текст)"
+        )
     elif text == "Регистрация рождения ребенка":
         await update.message.reply_text("Информация о регистрации рождения ребенка: ... (добавьте нужный текст)")
     elif text == "Регистрация брака":
