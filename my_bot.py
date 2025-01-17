@@ -29,20 +29,21 @@ async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Консулдық мәселелер"],
         ["Жұмыс уақыты"],
         ["Өтініш нысандары"],
-        ["Вернуться меню"]
+        ["Бастапқы бетке оралу"]
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     await update.message.reply_text("Сіз Қазақ тілін таңдадыңыз. Төмендегі мәзірден таңдаңыз:", reply_markup=reply_markup)
 
 # Функция для "Байланыс ақпараты"
 async def contact_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [["Вернуться меню"]]
     await update.message.reply_text(
         "Қазақстан Республикасының Пусан қаласындағы Бас Консулдығы (Корея Республикасы)\n"
         "Мекенжай: Пусан қ. 244, Jungang-daero, Dong-gu (48732)\n"
         "Тел: +(82 51) 466 7001, \n"
         "Консулдық бөлім: +(82 51) 469 7003\n"
         "E-mail: busan@mfa.kz",
-        reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
+        reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     )
 
 # Функция для "Консулдық мәселелер"
@@ -57,7 +58,7 @@ async def consular_issues(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу"],
         ["Қайталама куәліктер мен анықтамаларды есепке алу"],
         ["Консулдық есеп"],
-        ["Назад"]
+        ["Вернуться меню"]
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     await update.message.reply_text("Консулдық мәселелер тізімі:", reply_markup=reply_markup)
@@ -77,25 +78,28 @@ async def handle_consular_issues(update: Update, context: ContextTypes.DEFAULT_T
     }
     text = update.message.text
     if text in links:
-        await update.message.reply_text(f"Толығырақ мына сілтемеден көріңіз: {links[text]}")
-    elif text == "Назад":
-        await consular_issues(update, context)
+        await update.message.reply_text(f"Толығырақ мына сілтемеден көріңіз: {links[text]}", reply_markup=ReplyKeyboardMarkup([["Вернуться меню"]], resize_keyboard=True))
+    elif text == "Вернуться меню":
+        await kazakh_menu(update, context)
 
 # Функция для "Жұмыс уақыты"
 async def working_hours(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [["Вернуться меню"]]
     await update.message.reply_text(
         "Жұмыс тәртібі:\n"
         "Келушілерді консулдық мәселелер бойынша қабылдау дүйсенбі, сейсенбі, бейсенбі және жұма күндері сағат 9.30-ден 12.30-ге және 16.00-ден 17.00-ге дейін жүзеге асырылады.\n"
         "Сәрсенбі күні — қабылдамайтын күн.\n"
-        "Сенбі және жексенбі күндері, сондай-ақ Қазақстан мереке күндері - демалыс күні."
+        "Сенбі және жексенбі күндері, сондай-ақ Қазақстан мереке күндері - демалыс күні.",
+        reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     )
 
 # Функция для "Өтініш нысандары"
 async def forms(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [["Вернуться меню"]]
     await update.message.reply_text(
         "Өтініш нысандарын мына жерден жүктей аласыз:\n"
         "https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk",
-        reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
+        reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     )
 
 # Функция для обработки выбора пользователя
@@ -118,7 +122,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу",
         "Қайталама куәліктер мен анықтамаларды есепке алу",
         "Консулдық есеп",
-        "Назад"
+        "Вернуться меню"
     ]:
         await handle_consular_issues(update, context)
     elif text == "Жұмыс уақыты":
