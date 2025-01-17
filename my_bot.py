@@ -28,7 +28,7 @@ async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Өтініш нысандары"],
         ["Жиі қойылатын сұрақтар"],
         ["Байланыс ақпараты"],
-        ["Вернуться в главное меню", "Назад"],
+        ["Назад"],
     ]
 
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -46,7 +46,7 @@ async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Шаблоны заявлений"],
         ["Часто задаваемые вопросы"],
         ["Контакты"],
-        ["Вернуться в главное меню", "Назад"],
+        ["Назад"],
     ]
 
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -75,7 +75,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ["Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу"],
             ["Қайталама куәліктер мен анықтамаларды есепке алу"],
             ["Консулдық есеп"],
-            ["Вернуться в главное меню", "Назад"],
+            ["Назад"],
         ]
 
         reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -89,13 +89,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Жұмыс тәртібі:\n"
             "Келушілерді консулдық мәселелер бойынша қабылдау дүйсенбі, сейсенбі, бейсенбі және жұма күндері сағат 9.30-ден 12.30-ге және 16.00-ден 17.00-ге дейін жүзеге асырылады.\n"
             "Сәрсенбі күні — қабылдамайтын күн.\n"
-            "Сенбі және жексенбі күндері, сондай-ақ Қазақстан мереке күндері - демалыс күні.",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
+            "Сенбі және жексенбі күндері, сондай-ақ Қазақстан мереке күндері - демалыс күні."
         )
     elif text == "Өтініш нысандары":
         await update.message.reply_text(
             "Өтініш нысандарын мына сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
+            reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
         )
     elif text == "Байланыс ақпараты":
         await update.message.reply_text(
@@ -106,7 +105,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Орналасқан жері: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n"
             "https://naver.me/5wW6EhBY\n"
             "E-mail: busan@mfa.kz",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
+            reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
         )
     elif text == "Консульские вопросы":
         keyboard = [
@@ -119,7 +118,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ["Оформление разрешения на ПМЖ за рубежом"],
             ["Выдача повторных свидетельств и справок"],
             ["Консульский учет"],
-            ["Вернуться в главное меню", "Назад"],
+            ["Вернуться в главное меню"],
         ]
 
         reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -132,13 +131,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "Прием посетителей по консульским вопросам осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.\n"
             "Среда — неприемный день.\n"
-            "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни.",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
+            "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни."
         )
     elif text == "Шаблоны заявлений":
         await update.message.reply_text(
             "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
+            reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
         )
     elif text == "Контакты":
         await update.message.reply_text(
@@ -149,28 +147,39 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Местонахождение: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n"
             "https://naver.me/5wW6EhBY\n"
             "Эл. Почта: busan@mfa.kz",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
+            reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
         )
     elif text == "Оформление паспорта гражданина РК":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58637",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
-        )
+        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58637")
     elif text == "Государственная регистрация рождения ребенка за рубежом":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58637",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
-        )
+        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58637")
     elif text == "Государственная регистрация заключения брака":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181311?directionId=_58637",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
-        )
+        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181311?directionId=_58637")
     elif text == "Государственная регистрация расторжения брака за рубежом":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181316?directionId=_58637",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "Назад"]], resize_keyboard=True)
-        )
+        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181316?directionId=_58637")
     elif text == "Государственная регистрация смерти за рубежом":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memle
+        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181314?directionId=_58637")
+    elif text == "Оформление свидетельства на возвращение в РК":
+        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181317?directionId=_58637")
+    elif text == "Оформление разрешения на ПМЖ за рубежом":
+        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181315?directionId=_58637")
+    elif text == "Выдача повторных свидетельств и справок":
+        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181313?directionId=_58637")
+    elif text == "Консульский учет":
+        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181310?directionId=_58637")
+    elif text == "Вернуться в главное меню":
+        await russian_menu(update, context)
+    elif text == "Назад":
+        await kazakh_menu(update, context)
+    else:
+        await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
+
+# Основной блок для запуска бота
+if __name__ == "__main__":
+    app = ApplicationBuilder().token(TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
+    print("Бот запущен! Нажмите Ctrl+C для остановки.")
+    app.run_polling()
