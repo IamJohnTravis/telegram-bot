@@ -1,137 +1,136 @@
-from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
-import os
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, CallbackContext
 
-# Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
+RENDER_URL = "https://telegram-bot-4-my1j.onrender.com"
 
-# Порт для работы вебхуков
-PORT = int(os.environ.get("PORT", 8443))
+# Главное меню
+LANGUAGE_MENU = [
+    [InlineKeyboardButton("Қазақша", callback_data="lang_kz")],
+    [InlineKeyboardButton("Русский", callback_data="lang_ru")],
+]
 
-# Функция для обработки команды /start
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [
-        ["Қазақша", "Русский"]
-    ]
-    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-    await update.message.reply_text(
-        f"Қайырлы күн/Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать! "
+KZ_MENU = [
+    [InlineKeyboardButton("Консулдық мәселелер", callback_data="kz_consular")],
+    [InlineKeyboardButton("Жұмыс уақыты", callback_data="kz_working_hours")],
+    [InlineKeyboardButton("Өтініш нысандары", callback_data="kz_forms")],
+    [InlineKeyboardButton("Жиі қойылатын сұрақтар", callback_data="kz_faq")],
+    [InlineKeyboardButton("Байланыс ақпараты", callback_data="kz_contacts")],
+]
+
+RU_MENU = [
+    [InlineKeyboardButton("Консульские вопросы", callback_data="ru_consular")],
+    [InlineKeyboardButton("Время работы", callback_data="ru_working_hours")],
+    [InlineKeyboardButton("Шаблоны заявлений", callback_data="ru_forms")],
+    [InlineKeyboardButton("Часто задаваемые вопросы", callback_data="ru_faq")],
+    [InlineKeyboardButton("Контакты", callback_data="ru_contacts")],
+]
+
+BACK_BUTTON = [
+    [InlineKeyboardButton("Назад", callback_data="back")],
+]
+
+def start(update: Update, context: CallbackContext):
+    user_first_name = update.effective_user.first_name
+    greeting = (
+        f"Қайырлы күн  / Добрый день, {user_first_name}! Қош келдіңіз/Добро пожаловать!\n"
         "Вас приветствует Генеральное консульство Республики Казахстан в городе Пусан.\n"
-        "Чем мы можем вам помочь?",
-        reply_markup=reply_markup
+        "Чем мы можем вам помочь?"
+    )
+    update.message.reply_text(
+        greeting,
+        reply_markup=InlineKeyboardMarkup(LANGUAGE_MENU)
     )
 
-# Функция для обработки текстовых сообщений
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text
-    if text == "Қазақша":
-        await kazakh_menu(update, context)
-    elif text == "Русский":
-        await russian_menu(update, context)
-    elif text == "Консулдық мәселелер":
-        await kazakh_consular_issues(update, context)
-    elif text == "Консульские вопросы":
-        await russian_consular_issues(update, context)
-    else:
-        await update.message.reply_text("Извините, я не понимаю эту команду.")
+def button_handler(update: Update, context: CallbackContext):
+    query = update.callback_query
+    query.answer()
 
-# Функция для меню на казахском языке
-async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [
-        ["Байланыс ақпараты", "Консулдық мәселелер"],
-        ["Жұмыс уақыты", "Өтініш нысандары"],
-        ["Бастапқы бетке оралу"]
-    ]
-    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-    await update.message.reply_text("Сіз Қазақ тілін таңдадыңыз. Төмендегі мәзірден таңдаңыз:", reply_markup=reply_markup)
+    # Меню на казахском языке
+    if query.data == "lang_kz":
+        query.edit_message_text(
+            "Тілді таңдадыңыз: Қазақша",
+            reply_markup=InlineKeyboardMarkup(KZ_MENU)
+        )
 
-# Функция для меню на русском языке
-async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [
-        ["Контакты", "Консульские вопросы"],
-        ["Время работы", "Шаблоны заявлений"],
-        ["Вернуться в главное меню"]
-    ]
-    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-    await update.message.reply_text("Вы выбрали Русский язык. Пожалуйста, выберите пункт меню:", reply_markup=reply_markup)
+    elif query.data == "kz_contacts":
+        text = (
+            "Қазақстан Республикасының Пусан қаласындағы Бас Консулдығы (Корея Республикасы)\n"
+            "Мекенжай: Пусан қ. 244, Jungang-daero, Dong-gu (48732)\n"
+            "Тел: +(82 51) 466 7001, \nКонсулдық бөлім: +(82 51) 469 7003\n"
+            "Ресми сайты: https://www.gov.kz/memleket/entities/mfa-busan\n"
+            "Орналасқан жері: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n\n"
+            "E-mail: busan@mfa.kz"
+        )
+        query.edit_message_text(
+            text,
+            reply_markup=InlineKeyboardMarkup(BACK_BUTTON)
+        )
 
-# Функции для казахского меню
-async def kazakh_contact_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [["Бастапқы бетке оралу"]]
-    await update.message.reply_text(
-        "Қазақстан Республикасының Пусан қаласындағы Бас Консулдығы (Корея Республикасы)\n"
-        "Мекенжай: Пусан қ. 244, Jungang-daero, Dong-gu (48732)\n"
-        "Тел: +(82 51) 466 7001, \n"
-        "Консулдық бөлім: +(82 51) 469 7003\n"
-        "E-mail: busan@mfa.kz",
-        reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-    )
+    elif query.data == "kz_consular":
+        consular_menu = [
+            [InlineKeyboardButton("ҚР азаматының паспортын ресімдеу", url="https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58636")],
+            [InlineKeyboardButton("Шетелде баланың тууын мемлекеттік тіркеу", url="https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58636")],
+            [InlineKeyboardButton("Назад", callback_data="lang_kz")],
+        ]
+        query.edit_message_text(
+            "Консулдық мәселелер тізімі:",
+            reply_markup=InlineKeyboardMarkup(consular_menu)
+        )
 
-async def kazakh_working_hours(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [["Бастапқы бетке оралу"]]
-    await update.message.reply_text(
-        "Жұмыс тәртібі:\n"
-        "Келушілерді консулдық мәселелер бойынша қабылдау дүйсенбі, сейсенбі, бейсенбі және жұма күндері сағат 9.30-ден 12.30-ге және 16.00-ден 17.00-ге дейін жүзеге асырылады.\n"
-        "Сәрсенбі күні — қабылдамайтын күн.\n"
-        "Сенбі және жексенбі күндері, сондай-ақ Қазақстан мереке күндері - демалыс күні.",
-        reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-    )
+    elif query.data == "kz_working_hours":
+        text = (
+            "Жұмыс тәртібі:\n"
+            "Келушілерді консулдық мәселелер бойынша қабылдау дүйсенбі, сейсенбі, бейсенбі және жұма күндері сағат 9.30-ден 12.30-ге және 16.00-ден 17.00-ге дейін жүзеге асырылады.\n"
+            "Сәрсенбі күні — қабылдамайтын күн.\n"
+            "Сенбі және жексенбі күндері, сондай-ақ Қазақстан мереке күндері - демалыс күні."
+        )
+        query.edit_message_text(
+            text,
+            reply_markup=InlineKeyboardMarkup(BACK_BUTTON)
+        )
 
-async def kazakh_consular_issues(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [["Бастапқы бетке оралу"]]
-    links = {
-        "ҚР азаматының паспортын ресімдеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58636",
-        "Шетелде баланың тууын мемлекеттік тіркеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58636",
-        "Шетелде неке қиюды мемлекеттік тіркеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181311?directionId=_58636",
-        "Шетелде некені бұзуды мемлекеттік тіркеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181316?directionId=_58636",
-        "Шетелде қайтыс болуды мемлекеттік тіркеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181314?directionId=_58636",
-        "ҚР-ге оралуға арналған куәлікті ресімдеу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181317?directionId=_58636",
-        "Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181315?directionId=_58636",
-        "Қайталама куәліктер мен анықтамаларды есепке алу": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181313?directionId=_58636",
-        "Консулдық есеп": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181310?directionId=_58636"
-    }
-    response = "Консулдық мәселелер бойынша сілтемелер:\n"
-    for issue, link in links.items():
-        response += f"{issue}: {link}\n"
-    await update.message.reply_text(response, reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True))
+    elif query.data == "kz_forms":
+        query.edit_message_text(
+            "Өтініш нысандарын мына сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk",
+            reply_markup=InlineKeyboardMarkup(BACK_BUTTON)
+        )
 
-# Функции для русского меню
-async def russian_contact_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [["Вернуться в главное меню"]]
-    await update.message.reply_text(
-        "Генеральное консульство Республики Казахстан в г. Пусан (Республика Корея)\n"
-        "Адрес: г. Пусан 244, Jungang-daero, Dong-gu (48732)\n"
-        "Тел: +(82 51) 466 7001, \n"
-        "Консульский отдел: +(82 51) 469 7003\n"
-        "Эл. Почта: busan@mfa.kz\n"
-        "Официальный сайт: https://www.gov.kz/memleket/entities/mfa-busan?lang=ru",
-        reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-    )
+    # Меню на русском языке
+    elif query.data == "lang_ru":
+        query.edit_message_text(
+            "Вы выбрали язык: Русский",
+            reply_markup=InlineKeyboardMarkup(RU_MENU)
+        )
 
-async def russian_working_hours(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [["Вернуться в главное меню"]]
-    await update.message.reply_text(
-        "Прием посетителей по консульским вопросам осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.\n"
-        "Среда — неприемный день.\n"
-        "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни.",
-        reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-    )
+    elif query.data == "ru_contacts":
+        text = (
+            "Генеральное консульство Республики Казахстан в г. Пусан (Республика Корея)\n"
+            "Адрес: г. Пусан 244, Jungang-daero, Dong-gu (48732)\n"
+            "Тел: +(82 51) 466 7001, \nКонсульский отдел: +(82 51) 469 7003\n"
+            "Официальный сайт: https://www.gov.kz/memleket/entities/mfa-busan\n"
+            "Местонахождение: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n\n"
+            "Эл. Почта: busan@mfa.kz"
+        )
+        query.edit_message_text(
+            text,
+            reply_markup=InlineKeyboardMarkup(BACK_BUTTON)
+        )
 
-async def russian_consular_issues(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [["Вернуться в главное меню"]]
-    links = {
-        "Оформление паспорта гражданина РК": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58637",
-        "Государственная регистрация рождения ребенка за рубежом": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58637",
-        "Государственная регистрация заключения брака": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181311?directionId=_58637",
-        "Государственная регистрация расторжения брака за рубежом": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181316?directionId=_58637",
-        "Государственная регистрация смерти за рубежом": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181314?directionId=_58637",
-        "Оформление свидетельства на возвращение в РК": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181317?directionId=_58637",
-        "Оформление разрешения на ПМЖ за рубежом": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181315?directionId=_58637",
-        "Выдача повторных свидетельств и справок": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181313?directionId=_58637",
-        "Консульский учет": "https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181310?directionId=_58637"
-    }
-    response = "Ссылки по консульским вопросам:\n"
-    for issue, link in links.items():
-        response += f"{issue}: {link}\n"
-    await update.message.reply_text
-    
+    elif query.data == "back":
+        query.edit_message_text(
+            "Чем мы можем вам помочь?",
+            reply_markup=InlineKeyboardMarkup(LANGUAGE_MENU)
+        )
+
+def main():
+    updater = Updater(TOKEN)
+
+    updater.dispatcher.add_handler(CommandHandler("start", start))
+    updater.dispatcher.add_handler(CallbackQueryHandler(button_handler))
+
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == "__main__":
+    main()
