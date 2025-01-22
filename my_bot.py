@@ -28,7 +28,7 @@ async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Өтініш нысандары"],
         ["Жиі қойылатын сұрақтар"],
         ["Байланыс ақпараты"],
-        
+        ["Назад"],
     ]
 
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -46,7 +46,7 @@ async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Шаблоны заявлений"],
         ["Часто задаваемые вопросы"],
         ["Контакты"],
-        
+        ["Назад"],
     ]
 
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -75,7 +75,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ["Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу"],
             ["Қайталама куәліктер мен анықтамаларды есепке алу"],
             ["Консулдық есеп"],
-            
+            ["Назад"],
         ]
 
         reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -132,7 +132,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Прием посетителей по консульским вопросам осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.\n"
             "Среда — неприемный день.\n"
             "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни."
-             "Прием граждан осуществляется по живой очереди.\n"
         )
     elif text == "Шаблоны заявлений":
         await update.message.reply_text(
