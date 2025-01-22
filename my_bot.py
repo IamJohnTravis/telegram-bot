@@ -28,7 +28,7 @@ async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Өтініш нысандары"],
         ["Жиі қойылатын сұрақтар"],
         ["Байланыс ақпараты"],
-        
+        ["Вернуться в меню"],
     ]
 
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -46,7 +46,7 @@ async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Шаблоны заявлений"],
         ["Часто задаваемые вопросы"],
         ["Контакты"],
-        
+        ["Вернуться в меню"],
     ]
 
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -75,7 +75,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ["Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу"],
             ["Қайталама куәліктер мен анықтамаларды есепке алу"],
             ["Консулдық есеп"],
-            
+            ["Вернуться в меню"],
         ]
 
         reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -94,7 +94,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == "Өтініш нысандары":
         await update.message.reply_text(
             "Өтініш нысандарын мына сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk",
-            reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
+            reply_markup=ReplyKeyboardMarkup([["Вернуться в меню"]], resize_keyboard=True)
         )
     elif text == "Байланыс ақпараты":
         await update.message.reply_text(
@@ -105,73 +105,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Орналасқан жері: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n"
             "https://naver.me/5wW6EhBY\n"
             "E-mail: busan@mfa.kz",
-            reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
+            reply_markup=ReplyKeyboardMarkup([["Вернуться в меню"]], resize_keyboard=True)
         )
-    elif text == "Консульские вопросы":
-        keyboard = [
-            ["Оформление паспорта гражданина РК"],
-            ["Государственная регистрация рождения ребенка за рубежом"],
-            ["Государственная регистрация заключения брака"],
-            ["Государственная регистрация расторжения брака за рубежом"],
-            ["Государственная регистрация смерти за рубежом"],
-            ["Оформление свидетельства на возвращение в РК"],
-            ["Оформление разрешения на ПМЖ за рубежом"],
-            ["Выдача повторных свидетельств и справок"],
-            ["Консульский учет"],
-            ["Вернуться в главное меню"],
-        ]
-
-        reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-
-        await update.message.reply_text(
-            "Консульские вопросы: https://www.gov.kz/memleket/entities/mfa-busan/activities/58636?lang=ru",
-            reply_markup=reply_markup
-        )
-    elif text == "Время работы":
-        await update.message.reply_text(
-            "Прием посетителей по консульским вопросам осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.\n"
-            "Среда — неприемный день.\n"
-            "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни."
-             "Прием граждан осуществляется по живой очереди.\n"
-        )
-    elif text == "Шаблоны заявлений":
-        await update.message.reply_text(
-            "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru",
-            reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
-        )
-    elif text == "Контакты":
-        await update.message.reply_text(
-            "Генеральное консульство Республики Казахстан в г. Пусан (Республика Корея):\n"
-            "Адрес: г. Пусан 244, Jungang-daero, Dong-gu (48732)\n"
-            "Тел: +(82 51) 466 7001, \nКонсульский отдел: +(82 51) 469 7003\n"
-            "Официальный сайт: https://www.gov.kz/memleket/entities/mfa-busan\n"
-            "Местонахождение: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n"
-            "https://naver.me/5wW6EhBY\n"
-            "Эл. Почта: busan@mfa.kz",
-            reply_markup=ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
-        )
-    elif text == "Оформление паспорта гражданина РК":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58637")
-    elif text == "Государственная регистрация рождения ребенка за рубежом":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58637")
-    elif text == "Государственная регистрация заключения брака":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181311?directionId=_58637")
-    elif text == "Государственная регистрация расторжения брака за рубежом":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181316?directionId=_58637")
-    elif text == "Государственная регистрация смерти за рубежом":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181314?directionId=_58637")
-    elif text == "Оформление свидетельства на возвращение в РК":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181317?directionId=_58637")
-    elif text == "Оформление разрешения на ПМЖ за рубежом":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181315?directionId=_58637")
-    elif text == "Выдача повторных свидетельств и справок":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181313?directionId=_58637")
-    elif text == "Консульский учет":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181310?directionId=_58637")
-    elif text == "Вернуться в главное меню":
-        await russian_menu(update, context)
-    elif text == "Назад":
-        await kazakh_menu(update, context)
+    elif text == "Вернуться в меню":
+        await start(update, context)
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
