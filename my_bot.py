@@ -64,7 +64,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await kazakh_menu(update, context)
     elif text == "Русский":
         await russian_menu(update, context)
-    elif text == "Консулдық мәселелер":
+      elif text == "Консулдық мәселелер":
         keyboard = [
             ["ҚР азаматының паспортын ресімдеу"],
             ["Шетелде баланың тууын мемлекеттік тіркеу"],
@@ -84,7 +84,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Консулдық мәселелер туралы толық ақпарат: https://www.gov.kz/memleket/entities/mfa-busan/activities/58636?lang=ru",
             reply_markup=reply_markup
         )
-elif text == "ҚР азаматының паспортын ресімдеу":
+    elif text == "ҚР азаматының паспортын ресімдеу":
         await update.message.reply_text(
             "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58636"
         )
@@ -92,6 +92,7 @@ elif text == "ҚР азаматының паспортын ресімдеу":
         await update.message.reply_text(
             "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58636"
         )
+
     elif text == "Шетелде неке қиюды мемлекеттік тіркеу":
         await update.message.reply_text(
             "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181311?directionId=_58636"
