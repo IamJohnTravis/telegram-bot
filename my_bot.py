@@ -4,10 +4,6 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
 
-# Удаление существующего Webhook
-bot = Bot(token=TOKEN)
-bot.delete_webhook(drop_pending_updates=True)
-
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Кнопки для выбора языка
@@ -173,8 +169,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "Прием посетителей по консульским вопросам осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.\n"
             "Среда — неприемный день.\n"
-            "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни.\n"
-            "Прием осуществляется по живой очереди"
+            "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни."
         )
     elif text == "Шаблоны заявлений":
         await update.message.reply_text(
