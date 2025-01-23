@@ -64,7 +64,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await kazakh_menu(update, context)
     elif text == "Русский":
         await russian_menu(update, context)
-      elif text == "Консулдық мәселелер":
+     elif text == "Консулдық мәселелер":
         keyboard = [
             ["ҚР азаматының паспортын ресімдеу"],
             ["Шетелде баланың тууын мемлекеттік тіркеу"],
