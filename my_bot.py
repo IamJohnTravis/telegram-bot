@@ -19,13 +19,14 @@ TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [["Қазақша", "Русский"]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
-    
-    await update.message.reply_text(  # Эта строка должна иметь отступ в 4 пробела
+
+    await update.message.reply_text(
         f"Қайырлы күн / Добрый день, {update.effective_user.first_name}! "
         "Қош келдіңіз/Добро пожаловать! Чем мы можем вам помочь?",
         reply_markup=reply_markup
     )
 
+# Функция для обработки текстовых сообщений
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
     if text == "Қазақша":
@@ -34,7 +35,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Вы выбрали язык: Русский")
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
-    )
 
 # Функция для отображения меню на казахском языке
 async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -264,7 +264,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
-# Определение функции для запуска Telegram-бота
 def run_telegram_bot():
     asyncio.set_event_loop(asyncio.new_event_loop())  # Создаем новый цикл событий
     app = ApplicationBuilder().token(TOKEN).build()
@@ -273,13 +272,12 @@ def run_telegram_bot():
     print("Telegram Bot запущен!")
     app.run_polling()  # Запуск бота в режиме polling
 
-
 # Основной блок программы
 if __name__ == "__main__":
     # Запуск Telegram-бота в отдельном потоке
     telegram_thread = Thread(target=run_telegram_bot)
     telegram_thread.start()
-    
+
     # Запуск Flask-приложения
     port = int(os.getenv("PORT", 5000))
     flask_app.run(host='0.0.0.0', port=port)
