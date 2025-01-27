@@ -10,4 +10,7 @@ typing_extensions==4.12.2
 Flask
 python-telegram-bot
 gunicorn
+python-telegram-bot==20.3
+requests
+
 
