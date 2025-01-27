@@ -2,7 +2,7 @@ import os
 import asyncio
 from flask import Flask, request
 from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # Flask-приложение
 flask_app = Flask(__name__)
@@ -12,20 +12,21 @@ TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
 YOUR_PUBLIC_URL = "https://telegram-bot-yvu3.onrender.com"
 
 # Telegram Bot Application
-app = ApplicationBuilder().token(TOKEN).build()
+app = Application.builder().token(TOKEN).build()
 
 @flask_app.route("/")
 def hello():
     return "Hello, Render! The bot is running."
 
 @flask_app.route("/webhook", methods=["POST"])
-def webhook():
+async def webhook():
     if request.method == "POST":
         json_update = request.get_json(force=True)
         update = Update.de_json(json_update, app.bot)
-        asyncio.run(app.process_update(update))
+        await app.process_update(update)
         return "OK", 200
 
+# Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [["Қазақша", "Русский"]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
@@ -44,6 +45,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Вы выбрали язык: Русский")
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
+
+# Настройка хендлеров
+app.add_handler(CommandHandler("start", start))
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
         
 # Функция для отображения меню на казахском языке
 async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -243,12 +248,8 @@ app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
 # Основной блок программы
 if __name__ == "__main__":
-    # Настройка Webhook
-    app.run_webhook(
-        listen="0.0.0.0",
-        port=int(os.getenv("PORT", 5000)),
-        webhook_url=f"{YOUR_PUBLIC_URL}/webhook"
-    )
+    # Установить Webhook
+    asyncio.run(app.bot.set_webhook(url=f"{"https://telegram-bot-yvu3.onrender.com"}/webhook"))
 
     # Запуск Flask-приложения
     flask_app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
