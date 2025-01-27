@@ -1,31 +1,41 @@
 import os
 import asyncio
-from flask import Flask
+from flask import Flask, request
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
-from threading import Thread
 
 # Flask-приложение
 flask_app = Flask(__name__)
 
-@flask_app.route('/')
+# Токен вашего бота и URL Webhook
+TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
+YOUR_PUBLIC_URL = "https://telegram-bot-yvu3.onrender.com"
+
+# Telegram Bot Application
+app = ApplicationBuilder().token(TOKEN).build()
+
+@flask_app.route("/")
 def hello():
     return "Hello, Render! The bot is running."
 
-# Токен вашего бота
-TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
-YOUR_PUBLIC_URL = "https://telegram-bot-yvu3.onrender.com"
+@flask_app.route("/webhook", methods=["POST"])
+def webhook():
+    if request.method == "POST":
+        json_update = request.get_json(force=True)
+        update = Update.de_json(json_update, app.bot)
+        app.update_queue.put(update)
+        return "OK", 200
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [["Қазақша", "Русский"]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
-
     await update.message.reply_text(
         f"Қайырлы күн / Добрый день, {update.effective_user.first_name}! "
         "Қош келдіңіз/Добро пожаловать! Чем мы можем вам помочь?",
         reply_markup=reply_markup
     )
+
 # Функция для обработки текстовых сообщений
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
@@ -228,42 +238,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
-# Основной блок для запуска бота
-import os
-from flask import Flask
-from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
-from threading import Thread
-
-# Flask-приложение
-flask_app = Flask(__name__)
-
-@flask_app.route('/')
-def hello():
-    return "Hello, Render! The bot is running."
-
-# Telegram Bot
-TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU" # Замените на ваш токен
-
-# Функции Telegram-бота
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [["Қазақша", "Русский"]]
-    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
-    await update.message.reply_text(
-        f"Қайырлы күн / Добрый день, {update.effective_user.first_name}! "
-        "Қош келдіңіз/Добро пожаловать! Чем мы можем вам помочь?",
-        reply_markup=reply_markup
-    )
-
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text
-    if text == "Қазақша":
-        await update.message.reply_text("Тілді таңдадыңыз: Қазақша")
-    elif text == "Русский":
-        await update.message.reply_text("Вы выбрали язык: Русский")
-    else:
-        await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
-
 def run_telegram_bot():
     asyncio.set_event_loop(asyncio.new_event_loop())  # Создаем новый цикл событий
     app = ApplicationBuilder().token(TOKEN).build()
@@ -278,13 +252,19 @@ def run_telegram_bot():
     port=int(os.environ.get("PORT", 5000)),  # Порт из переменной окружения
     webhook_url="https://telegram-bot-yvu3.onrender.com/7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"  # Ваш URL Webhook
 )
-    
+
+# Настройка хендлеров
+app.add_handler(CommandHandler("start", start))
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
 # Основной блок программы
 if __name__ == "__main__":
-    # Запуск Telegram-бота в отдельном потоке
-    telegram_thread = Thread(target=run_telegram_bot)
-    telegram_thread.start()
+    # Настройка Webhook
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=int(os.getenv("PORT", 5000)),
+        webhook_url=f"{YOUR_PUBLIC_URL}/webhook"
+    )
 
     # Запуск Flask-приложения
-    port = int(os.getenv("PORT", 5000))
-    flask_app.run(host='0.0.0.0', port=port)
+    flask_app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
