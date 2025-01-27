@@ -14,6 +14,7 @@ def hello():
 
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
+YOUR_PUBLIC_URL = "https://telegram-bot-yvu3.onrender.com"
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -271,7 +272,13 @@ def run_telegram_bot():
     print("Telegram Bot запущен!")
     app.run_polling()  # Запуск бота в режиме polling
 
-
+  # Настраиваем Webhook
+   app.run_webhook(
+    listen="0.0.0.0",  # Слушаем все адреса
+    port=int(os.environ.get("PORT", 5000)),  # Порт из переменной окружения
+    webhook_url="https://telegram-bot-yvu3.onrender.com/7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"  # Ваш URL Webhook
+)
+    
 # Основной блок программы
 if __name__ == "__main__":
     # Запуск Telegram-бота в отдельном потоке
