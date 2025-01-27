@@ -261,11 +261,17 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Определение функции для запуска Telegram-бота
 def run_telegram_bot():
+    asyncio.set_event_loop(asyncio.new_event_loop())  # Создаем новый цикл событий
+    loop = asyncio.get_event_loop()
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     print("Telegram Bot запущен!")
-    app.run_polling()
+
+    # Запускаем бот через цикл событий
+    loop.run_forever()
+    asyncio.run(app.run_polling())  # Запуск polling в асинхронном контексте
+
 
 # Основной блок программы
 if __name__ == "__main__":
