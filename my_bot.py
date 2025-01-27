@@ -1,5 +1,15 @@
+import os
+from flask import Flask
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+from threading import Thread
+
+# Flask-приложение
+flask_app = Flask(__name__)
+
+@flask_app.route('/')
+def hello():
+    return "Hello, Render! The bot is running."
 
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
