@@ -1,15 +1,8 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
-import os
-import threading
-import requests
-import time
 
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
-
-# Ссылка для активации сервиса
-RENDER_ACTIVATION_URL = "https://api.render.com/deploy/srv-cu8tv3i3esus739soco0?key=1ITZYdIhpPI"
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -62,19 +55,6 @@ async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Вы выбрали язык: Русский",
         reply_markup=reply_markup
     )
-
-# Функция для проверки и активации сервиса
-def keep_service_active():
-    while True:
-        try:
-            response = requests.get(RENDER_ACTIVATION_URL)
-            if response.status_code == 200:
-                print("Сервис успешно активирован!")
-            else:
-                print(f"Ошибка активации: {response.status_code}")
-        except Exception as e:
-            print(f"Ошибка при попытке активации: {e}")
-        time.sleep(300)  # Запрос каждые 5 минут
 
 # Функция для обработки выбора пользователя
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -232,17 +212,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
-# Получение порта из переменной окружения
-PORT = int(os.environ.get("PORT", 8443))
-
+# Основной блок для запуска бота
 if __name__ == "__main__":
-    # Запускаем поток для периодической активации сервиса
-    threading.Thread(target=keep_service_active, daemon=True).start()
-
-    # Настройка бота
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
+    app.run_polling()
