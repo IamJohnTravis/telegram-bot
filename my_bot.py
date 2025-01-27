@@ -30,6 +30,10 @@ def restart_service():
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Проверяем состояние сервиса перед началом
+    if not check_service():
+        restart_service()
+        
     # Кнопки для выбора языка
     keyboard = [
         ["Қазақша", "Русский"],
