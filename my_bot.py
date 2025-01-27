@@ -26,7 +26,6 @@ def webhook():
         asyncio.run(app.process_update(update))
         return "OK", 200
 
-# Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [["Қазақша", "Русский"]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
