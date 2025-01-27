@@ -1,5 +1,6 @@
-from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+import os
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler
 
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
@@ -212,7 +213,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
-# Основной блок для запуска бота
+# Получение порта из переменной окружения
+PORT = int(os.environ.get("PORT", 8443))
+
 if __name__ == "__main__":
     app = ApplicationBuilder().token(TOKEN).build()
 
@@ -220,4 +223,11 @@ if __name__ == "__main__":
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
-    app.run_polling()
+
+    # Настройка Webhook
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=PORT,
+        url_path=TOKEN,
+        webhook_url=f"https://telegram-bot-yvu3.onrender.com/{TOKEN}"
+    )
