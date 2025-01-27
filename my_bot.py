@@ -224,9 +224,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Основной блок для запуска бота
 if __name__ == "__main__":
-        Thread(target=run_telegram_bot).start()
+    # Запуск Flask-приложения в основном процессе
+    Thread(target=run_telegram_bot).start()
 
-    port = int(os.getenv("PORT", 5000))
+    port = int(os.getenv("PORT", 5000))  # Отступ должен быть ровно 4 пробела
     flask_app.run(host='0.0.0.0', port=port)
     app = ApplicationBuilder().token(TOKEN).build()
 
