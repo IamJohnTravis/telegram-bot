@@ -1,8 +1,32 @@
+import requests
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+import time
 
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
+
+# Ссылка для восстановления сервиса
+RENDER_RESTART_URL = "https://api.render.com/deploy/srv-cu8tv3i3esus739soco0?key=1ITZYdIhpPI"
+
+# Функция для проверки доступности сервиса
+def check_service():
+    try:
+        response = requests.get("https://your-service-url.com", timeout=5)  # Замените на ваш URL
+        return response.status_code == 200
+    except requests.RequestException:
+        return False
+
+# Функция для восстановления сервиса
+def restart_service():
+    try:
+        response = requests.get(RENDER_RESTART_URL)
+        if response.status_code == 200:
+            print("Сервис успешно перезапущен.")
+        else:
+            print(f"Ошибка при перезапуске сервиса: {response.status_code}")
+    except requests.RequestException as e:
+        print(f"Не удалось выполнить запрос на перезапуск: {e}")
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
