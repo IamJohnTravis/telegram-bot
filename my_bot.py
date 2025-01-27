@@ -247,5 +247,17 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
+    # Фоновая проверка сервиса
+    def monitor_service():
+        while True:
+            if not check_service():
+                print("Сервис недоступен. Попытка перезапуска...")
+                restart_service()
+            time.sleep(300)  # Проверять каждые 5 минут
+
+    # Запускаем мониторинг в отдельном потоке
+    import threading
+    threading.Thread(target=monitor_service, daemon=True).start()
+
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
     app.run_polling()
