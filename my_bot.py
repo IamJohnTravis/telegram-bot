@@ -25,7 +25,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Қош келдіңіз/Добро пожаловать! Чем мы можем вам помочь?",
         reply_markup=reply_markup
     )
-
 # Функция для обработки текстовых сообщений
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
@@ -265,12 +264,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
 def run_telegram_bot():
-    asyncio.set_event_loop(asyncio.new_event_loop())  # Создаём новый цикл событий
+    asyncio.set_event_loop(asyncio.new_event_loop())  # Создаем новый цикл событий
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     print("Telegram Bot запущен!")
     app.run_polling()  # Запуск бота в режиме polling
+
 
 # Основной блок программы
 if __name__ == "__main__":
