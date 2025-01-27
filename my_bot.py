@@ -1,11 +1,31 @@
 from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
+import os
+import threading
+import requests
+import time
 
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
 
 # Ссылка для активации сервиса
 RENDER_ACTIVATION_URL = "https://api.render.com/deploy/srv-cu8tv3i3esus739soco0?key=1ITZYdIhpPI"
+
+# Функция для периодической активации сервиса через Render
+def keep_service_active():
+    while True:
+        try:
+            response = requests.get(RENDER_ACTIVATION_URL)
+            if response.status_code == 200:
+                print("Сервис успешно активирован.")
+            else:
+                print(f"Ошибка активации сервиса: {response.status_code}")
+        except Exception as e:
+            print(f"Ошибка при активации сервиса: {e}")
+        time.sleep(300)  # Повторный запрос каждые 5 минут
+
+# Запуск отдельного потока для активации сервиса
+threading.Thread(target=keep_service_active, daemon=True).start()
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
