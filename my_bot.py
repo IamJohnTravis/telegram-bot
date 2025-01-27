@@ -1,6 +1,6 @@
-import os
 from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
+import os
 
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
@@ -224,7 +224,7 @@ if __name__ == "__main__":
 
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
 
-    # Настройка Webhook
+   # Настройка Webhook
     app.run_webhook(
         listen="0.0.0.0",
         port=PORT,
