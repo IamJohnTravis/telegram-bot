@@ -17,18 +17,22 @@ TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Кнопки для выбора языка
-    keyboard = [
-        ["Қазақша", "Русский"],
-    ]
-
+    keyboard = [["Қазақша", "Русский"]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
-
     await update.message.reply_text(
-        f"Қайырлы күн  / Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать! \n"
-        "Вас приветствует Генеральное консульство Республики Казахстан в городе Пусан.\n"
-        "Чем мы можем вам помочь?",
+        f"Қайырлы күн / Добрый день, {update.effective_user.first_name}! "
+        "Қош келдіңіз/Добро пожаловать! Чем мы можем вам помочь?",
         reply_markup=reply_markup
+    )
+
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
+    if text == "Қазақша":
+        await update.message.reply_text("Тілді таңдадыңыз: Қазақша")
+    elif text == "Русский":
+        await update.message.reply_text("Вы выбрали язык: Русский")
+    else:
+        await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
     )
 
 # Функция для отображения меню на казахском языке
@@ -262,15 +266,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Определение функции для запуска Telegram-бота
 def run_telegram_bot():
     asyncio.set_event_loop(asyncio.new_event_loop())  # Создаем новый цикл событий
-    loop = asyncio.get_event_loop()
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     print("Telegram Bot запущен!")
-
-    # Запускаем бот через цикл событий
-    loop.run_forever()
-    asyncio.run(app.run_polling())  # Запуск polling в асинхронном контексте
+    app.run_polling()  # Запуск бота в режиме polling
 
 
 # Основной блок программы
@@ -282,11 +282,3 @@ if __name__ == "__main__":
     # Запуск Flask-приложения
     port = int(os.getenv("PORT", 5000))
     flask_app.run(host='0.0.0.0', port=port)
-
-    app = ApplicationBuilder().token(TOKEN).build()
-
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-
-    print("Бот запущен! Нажмите Ctrl+C для остановки.")
-    app.run_polling()
