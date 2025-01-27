@@ -243,7 +243,7 @@ def hello():
     return "Hello, Render! The bot is running."
 
 # Telegram Bot
-TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # Замените на ваш токен
+TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU" # Замените на ваш токен
 
 # Функции Telegram-бота
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -265,7 +265,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
 def run_telegram_bot():
-    asyncio.set_event_loop(asyncio.new_event_loop())  # Создаем новый цикл событий
+    asyncio.set_event_loop(asyncio.new_event_loop())  # Создаём новый цикл событий
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
