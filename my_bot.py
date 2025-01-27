@@ -20,10 +20,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [["Қазақша", "Русский"]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
     await update.message.reply_text(
-        f"Қайырлы күн / Добрый день, {update.effective_user.first_name}! "
-        "Қош келдіңіз/Добро пожаловать! Чем мы можем вам помочь?",
-        reply_markup=reply_markup
-    )
+    f"Қайырлы күн / Добрый день, {update.effective_user.first_name}! "
+    "Қош келдіңіз/Добро пожаловать! Чем мы можем вам помочь?",
+    reply_markup=reply_markup
+)
+    
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
