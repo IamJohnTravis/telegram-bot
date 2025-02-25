@@ -260,12 +260,16 @@ def monitor_service():
         time.sleep(300)
         
 # Основной блок для запуска бота
-if __name__ == "__main__":
-    app = ApplicationBuilder().token(TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-
-
+def run_bot():
+    bot_app = ApplicationBuilder().token(TOKEN).build()
+    bot_app.add_handler(CommandHandler("start", start))
+    bot_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     threading.Thread(target=monitor_service, daemon=True).start()
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
-    app.run_polling()
+    bot_app.run_polling()
+
+if __name__ == "__main__":
+    # Запускаем Telegram-бота в отдельном потоке
+    threading.Thread(target=run_bot, daemon=True).start()
+    # Запускаем Flask-сервер в главном потоке
+    flask_app.run(host='0.0.0.0', port=port)
