@@ -3,10 +3,12 @@ import threading
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 import time
+import os
 from flask import Flask
 
+
 app = Flask(__name__)
-port = int(os.environ.get('PORT', 3000))  # Render задает порт через переменную окружения PORT
+port = int(os.environ.get('PORT', 3000))  # Render задаёт порт через переменную окружения PORT
 
 @app.route('/')
 def home():
