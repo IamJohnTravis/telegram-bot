@@ -14,8 +14,6 @@ port = int(os.environ.get('PORT', 3000))  # Render задаёт порт чер�
 def home():
     return f"Сервер прослушивает порт {port}"
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port)
     
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
@@ -266,6 +264,7 @@ if __name__ == "__main__":
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    app.run(host='0.0.0.0', port=port)
 
     threading.Thread(target=monitor_service, daemon=True).start()
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
