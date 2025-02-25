@@ -24,7 +24,7 @@ RENDER_RESTART_URL = "https://api.render.com/deploy/srv-cu8tv3i3esus739soco0?key
 # Функция для проверки доступности сервиса
 def check_service():
     try:
-        response = requests.get("https://t.me/CGKazBusan_bot", timeout=5)  # Замените на ваш URL
+        response = requests.get("https://telegram-bot-yvu3.onrender.com", timeout=5)
         return response.status_code == 200
     except requests.RequestException:
         return False
