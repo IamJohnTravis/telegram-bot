@@ -264,7 +264,7 @@ if __name__ == "__main__":
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-    app.run(host='0.0.0.0', port=port)
+
 
     threading.Thread(target=monitor_service, daemon=True).start()
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
