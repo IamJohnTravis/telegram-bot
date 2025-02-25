@@ -272,4 +272,4 @@ if __name__ == "__main__":
     # Запускаем Telegram-бота в отдельном потоке
     threading.Thread(target=run_bot, daemon=True).start()
     # Запускаем Flask-сервер в главном потоке
-    flask_app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port)
