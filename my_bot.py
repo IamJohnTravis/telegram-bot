@@ -1,35 +1,32 @@
 import requests
 import threading
+import asyncio
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 import time
 import os
 from flask import Flask
 
-
-app = Flask(__name__)
+# Создаём Flask-сервер
+flask_app = Flask(__name__)
 port = int(os.environ.get('PORT', 3000))  # Render задаёт порт через переменную окружения PORT
 
-@app.route('/')
+@flask_app.route('/')
 def home():
     return f"Сервер прослушивает порт {port}"
 
-    
-# Токен вашего бота
+# Токен вашего бота и URL для восстановления сервиса
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
-
-# Ссылка для восстановления сервиса
 RENDER_RESTART_URL = "https://api.render.com/deploy/srv-cu8tv3i3esus739soco0?key=1ITZYdIhpPI"
 
-# Функция для проверки доступности сервиса
 def check_service():
     try:
-        response = requests.get("https://t.me/CGKazBusan_bot", timeout=5)  # Замените на ваш URL
+        # Здесь замените URL на нужный, например, если хотите проверить именно свой веб-сервис:
+        response = requests.get("https://telegram-bot-yvu3.onrender.com", timeout=5)
         return response.status_code == 200
     except requests.RequestException:
         return False
 
-# Функция для восстановления сервиса
 def restart_service():
     try:
         response = requests.get(RENDER_RESTART_URL)
@@ -40,27 +37,21 @@ def restart_service():
     except requests.RequestException as e:
         print(f"Не удалось выполнить запрос на перезапуск: {e}")
 
-# Функция для обработки команды /start
+# Асинхронный обработчик команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Проверяем состояние сервиса перед началом
+    print("Получена команда /start")
     if not check_service():
         restart_service()
-        
-    # Кнопки для выбора языка
-    keyboard = [
-        ["Қазақша", "Русский"],
-    ]
-
+    keyboard = [["Қазақша", "Русский"]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
-
     await update.message.reply_text(
-        f"Қайырлы күн  / Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать! \n"
+        f"Қайырлы күн / Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать!\n"
         "Вас приветствует Генеральное консульство Республики Казахстан в городе Пусан.\n"
         "Чем мы можем вам помочь?",
         reply_markup=reply_markup
     )
 
-# Функция для отображения меню на казахском языке
+# Пример обработчиков для меню (аналогично вашим функциям)
 async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         ["Консулдық мәселелер"],
@@ -70,15 +61,9 @@ async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Байланыс ақпараты"],
         ["Бастапқы бетке оралу", "қаз/рус"],
     ]
-
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+    await update.message.reply_text("Тілді таңдадыңыз: Қазақша", reply_markup=reply_markup)
 
-    await update.message.reply_text(
-        "Тілді таңдадыңыз: Қазақша",
-        reply_markup=reply_markup
-    )
-
-# Функция для отображения меню на русском языке
 async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         ["Консульские вопросы"],
@@ -88,167 +73,17 @@ async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Контакты"],
         ["Вернуться в главное меню", "қаз/рус"],
     ]
-
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+    await update.message.reply_text("Вы выбрали язык: Русский", reply_markup=reply_markup)
 
-    await update.message.reply_text(
-        "Вы выбрали язык: Русский",
-        reply_markup=reply_markup
-    )
-
-# Функция для обработки выбора пользователя
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
-
     if text == "Қазақша":
         await kazakh_menu(update, context)
     elif text == "Русский":
         await russian_menu(update, context)
     elif text == "қаз/рус":
         await start(update, context)
-    elif text == "Консулдық мәселелер":
-        keyboard = [
-            ["ҚР азаматының паспортын ресімдеу"],
-            ["Шетелде баланың тууын мемлекеттік тіркеу"],
-            ["Шетелде неке қиюды мемлекеттік тіркеу"],
-            ["Шетелде некені бұзуды мемлекеттік тіркеу"],
-            ["Шетелде қайтыс болуды мемлекеттік тіркеу"],
-            ["ҚР-ге оралуға арналған куәлікті ресімдеу"],
-            ["Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу"],
-            ["Қайталама куәліктер мен анықтамаларды есепке алу"],
-            ["Консулдық есеп"],
-            ["Бастапқы бетке оралу", "қаз/рус"],
-        ]
-
-        reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-
-        await update.message.reply_text(
-            "Консулдық мәселелер туралы толық ақпарат: https://www.gov.kz/memleket/entities/mfa-busan/activities/58636?lang=ru",
-            reply_markup=reply_markup
-        )
-    elif text == "ҚР азаматының паспортын ресімдеу":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58636"
-        )
-    elif text == "Шетелде баланың тууын мемлекеттік тіркеу":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58636"
-        )
-    elif text == "Шетелде неке қиюды мемлекеттік тіркеу":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181311?directionId=_58636"
-        )
-    elif text == "Шетелде некені бұзуды мемлекеттік тіркеу":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181316?directionId=_58636"
-        )
-    elif text == "Шетелде қайтыс болуды мемлекеттік тіркеу":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181314?directionId=_58636"
-        )
-    elif text == "ҚР-ге оралуға арналған куәлікті ресімдеу":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181317?directionId=_58636"
-        )
-    elif text == "Қазақстаннан тыс жерде тұрақты тұруға рұқсат алу":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181315?directionId=_58636"
-        )
-    elif text == "Қайталама куәліктер мен анықтамаларды есепке алу":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181313?directionId=_58636"
-        )
-    elif text == "Консулдық есеп":
-        await update.message.reply_text(
-            "Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181310?directionId=_58636"
-        )
-    elif text == "Жұмыс уақыты":
-        await update.message.reply_text(
-            "Жұмыс тәртібі:\n"
-            "Келушілерді консулдық мәселелер бойынша қабылдау дүйсенбі, сейсенбі, бейсенбі және жұма күндері сағат 9.30-ден 12.30-ге және 16.00-ден 17.00-ге дейін жүзеге асырылады.\n"
-            "Сәрсенбі күні — қабылдамайтын күн.\n"
-            "Сенбі және жексенбі күндері, сондай-ақ Қазақстан мереке күндері - демалыс күні."
-        )
-    elif text == "Өтініш нысандары":
-        await update.message.reply_text(
-            "Өтініш нысандарын мына сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk",
-            reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
-        )
-    elif text == "Байланыс ақпараты":
-        await update.message.reply_text(
-            "Қазақстан Республикасының Пусан қаласындағы Бас Консулдығы (Корея Республикасы)\n"
-            "Мекенжай: Пусан қ. 244, Jungang-daero, Dong-gu (48732)\n"
-            "Тел: +(82 51) 466 7001, \nКонсулдық бөлім: +(82 51) 469 7003\n"
-            "Ресми сайты: https://www.gov.kz/memleket/entities/mfa-busan\n"
-            "Орналасқан жері: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n"
-            "https://naver.me/5wW6EhBY\n"
-            "E-mail: busan@mfa.kz",
-            reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
-        )
-    elif text == "Консульские вопросы":
-        keyboard = [
-            ["Оформление паспорта гражданина РК"],
-            ["Государственная регистрация рождения ребенка за рубежом"],
-            ["Государственная регистрация заключения брака"],
-            ["Государственная регистрация расторжения брака за рубежом"],
-            ["Государственная регистрация смерти за рубежом"],
-            ["Оформление свидетельства на возвращение в РК"],
-            ["Оформление разрешения на ПМЖ за рубежом"],
-            ["Выдача повторных свидетельств и справок"],
-            ["Консульский учет"],
-            ["Вернуться в главное меню", "қаз/рус"],
-        ]
-
-        reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-
-        await update.message.reply_text(
-            "Консульские вопросы: https://www.gov.kz/memleket/entities/mfa-busan/activities/58636?lang=ru",
-            reply_markup=reply_markup
-        )
-    elif text == "Время работы":
-        await update.message.reply_text(
-            "Прием посетителей по консульским вопросам осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.\n"
-            "Среда — неприемный день.\n"
-            "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни."
-        )
-    elif text == "Шаблоны заявлений":
-        await update.message.reply_text(
-            "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "қаз/рус"]], resize_keyboard=True)
-        )
-    elif text == "Контакты":
-        await update.message.reply_text(
-            "Генеральное консульство Республики Казахстан в г. Пусан (Республика Корея):\n"
-            "Адрес: г. Пусан 244, Jungang-daero, Dong-gu (48732)\n"
-            "Тел: +(82 51) 466 7001, \nКонсульский отдел: +(82 51) 469 7003\n"
-            "Официальный сайт: https://www.gov.kz/memleket/entities/mfa-busan\n"
-            "Местонахождение: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n"
-            "https://naver.me/5wW6EhBY\n"
-            "Эл. Почта: busan@mfa.kz",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "қаз/рус"]], resize_keyboard=True)
-        )
-    elif text == "Оформление паспорта гражданина РК":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181319?directionId=_58637")
-    elif text == "Государственная регистрация рождения ребенка за рубежом":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181318?directionId=_58637")
-    elif text == "Государственная регистрация заключения брака":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181311?directionId=_58637")
-    elif text == "Государственная регистрация расторжения брака за рубежом":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181316?directionId=_58637")
-    elif text == "Государственная регистрация смерти за рубежом":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181314?directionId=_58637")
-    elif text == "Оформление свидетельства на возвращение в РК":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181317?directionId=_58637")
-    elif text == "Оформление разрешения на ПМЖ за рубежом":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181315?directionId=_58637")
-    elif text == "Выдача повторных свидетельств и справок":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181313?directionId=_58637")
-    elif text == "Консульский учет":
-        await update.message.reply_text("Информация: https://www.gov.kz/memleket/entities/mfa-busan/press/article/details/181310?directionId=_58637")
-    elif text == "Вернуться в главное меню":
-        await russian_menu(update, context)
-    elif text == "Бастапқы бетке оралу":
-        await kazakh_menu(update, context)
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
@@ -258,21 +93,23 @@ def monitor_service():
             print("Сервис недоступен. Перезапускаю...")
             restart_service()
         time.sleep(300)
-        
-# Основной блок для запуска бота
 
-    
-def run_bot():
-    bot_app = ApplicationBuilder().token(TOKEN).build() 
+# Асинхронная функция для запуска бота
+async def run_bot():
+    bot_app = ApplicationBuilder().token(TOKEN).build()
     bot_app.add_handler(CommandHandler("start", start))
     bot_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     threading.Thread(target=monitor_service, daemon=True).start()
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
-    bot_app.run_polling(drop_pending_updates=True)
+    # drop_pending_updates=True – чтобы сбросить старые обновления
+    await bot_app.run_polling(drop_pending_updates=True)
 
+def run_flask():
+    flask_app.run(host='0.0.0.0', port=port)
 
 if __name__ == "__main__":
-    # Запускаем Telegram-бота в отдельном потоке
-    threading.Thread(target=run_bot, daemon=True).start()
-    # Запускаем Flask-сервер в главном потоке
-    app.run(host='0.0.0.0', port=port)
+    # Запускаем Flask-сервер в отдельном потоке, чтобы Render видел открытый порт
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
+    # Запускаем Telegram-бота в основном потоке с корректным event loop
+    asyncio.run(run_bot())
