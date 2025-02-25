@@ -261,14 +261,14 @@ def monitor_service():
         
 # Основной блок для запуска бота
 
-def run_flask(): app.run(host='0.0.0.0', port=port) 
+    
 def run_bot():
-    bot_app = ApplicationBuilder().token(TOKEN).build(run_async=True)
+    bot_app = ApplicationBuilder().token(TOKEN).build() 
     bot_app.add_handler(CommandHandler("start", start))
     bot_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     threading.Thread(target=monitor_service, daemon=True).start()
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
-    bot_app.run_polling()
+    bot_app.run_polling(drop_pending_updates=True)
 
 
 if __name__ == "__main__":
