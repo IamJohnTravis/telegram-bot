@@ -10,7 +10,7 @@ from flask import Flask
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 3000))  # Render задаёт порт через переменную окружения PORT
 
-@app.route('/')
+@flask_app.route('/')
 def home():
     return f"Сервер прослушивает порт {port}"
 
