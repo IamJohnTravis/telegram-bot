@@ -261,7 +261,7 @@ def monitor_service():
         
 # Основной блок для запуска бота
 
-def run_flask(): app.run(host='0.0.0.0', port=port) 
+
 def run_bot():
     bot_app = ApplicationBuilder().token(TOKEN).build(run_async=True)
     bot_app.add_handler(CommandHandler("start", start))
@@ -269,7 +269,8 @@ def run_bot():
     threading.Thread(target=monitor_service, daemon=True).start()
     run_bot() 
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
-
+    
+def run_flask(): app.run(host='0.0.0.0', port=port) 
 
 if __name__ == "__main__":
     # Запускаем Telegram-бота в отдельном потоке
