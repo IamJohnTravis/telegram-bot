@@ -8,7 +8,7 @@ from flask import Flask
 
 
 app = Flask(__name__)
-port = int(os.environ.get('PORT', 10000))  # Render задаёт порт через переменную окружения PORT
+port = int(os.environ.get('PORT', 5000))  # Render задаёт порт через переменную окружения PORT
 
 @app.route('/')
 def home():
@@ -267,7 +267,6 @@ def run_bot():
     bot_app.add_handler(CommandHandler("start", start))
     bot_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     threading.Thread(target=monitor_service, daemon=True).start()
-    run_bot() 
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
     
 
