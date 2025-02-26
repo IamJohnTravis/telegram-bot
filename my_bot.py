@@ -1,11 +1,51 @@
+import requests
+import threading
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+import time
+import os
+from flask import Flask
 
+
+app = Flask(__name__)
+port = int(os.environ.get('PORT', 3000))  # Render задаёт порт через переменную окружения PORT
+
+@app.route('/')
+def home():
+    return f"Сервер прослушивает порт {port}"
+
+    
 # Токен вашего бота
 TOKEN = "7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU"
 
+# Ссылка для восстановления сервиса
+RENDER_RESTART_URL = "https://api.render.com/deploy/srv-cu8tv3i3esus739soco0?key=1ITZYdIhpPI"
+
+# Функция для проверки доступности сервиса
+def check_service():
+    try:
+        response = requests.get("https://t.me/CGKazBusan_bot", timeout=5)  # Замените на ваш URL
+        return response.status_code == 200
+    except requests.RequestException:
+        return False
+
+# Функция для восстановления сервиса
+def restart_service():
+    try:
+        response = requests.get(RENDER_RESTART_URL)
+        if response.status_code == 200:
+            print("Сервис успешно перезапущен.")
+        else:
+            print(f"Ошибка при перезапуске сервиса: {response.status_code}")
+    except requests.RequestException as e:
+        print(f"Не удалось выполнить запрос на перезапуск: {e}")
+
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Проверяем состояние сервиса перед началом
+    if not check_service():
+        restart_service()
+        
     # Кнопки для выбора языка
     keyboard = [
         ["Қазақша", "Русский"],
@@ -212,12 +252,27 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
+def monitor_service():
+    while True:
+        if not check_service():
+            print("Сервис недоступен. Перезапускаю...")
+            restart_service()
+        time.sleep(300)
+        
 # Основной блок для запуска бота
-if __name__ == "__main__":
-    app = ApplicationBuilder().token(TOKEN).build()
 
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-
+def run_flask(): app.run(host='0.0.0.0', port=port) 
+def run_bot():
+    bot_app = ApplicationBuilder().token(TOKEN).build(run_async=True)
+    bot_app.add_handler(CommandHandler("start", start))
+    bot_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    threading.Thread(target=monitor_service, daemon=True).start()
+    run_bot() 
     print("Бот запущен! Нажмите Ctrl+C для остановки.")
-    app.run_polling()
+
+
+if __name__ == "__main__":
+    # Запускаем Telegram-бота в отдельном потоке
+    threading.Thread(target=run_bot, daemon=True).start()
+    # Запускаем Flask-сервер в главном потоке
+    app.run(host='0.0.0.0', port=port)
