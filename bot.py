@@ -1,15 +1,11 @@
-import os
-import asyncio
 from flask import Flask, request
-from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram import Update
+from telegram.ext import ApplicationBuilder
+import asyncio
 
-# Загружаем переменные окружения
-TOKEN = os.getenv("TOKEN")  # Токен бота из Render
-WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # URL Render (например, https://your-bot.onrender.com)
-
-# Создаем Flask-приложение
 app = Flask(__name__)
+TOKEN = os.getenv("TOKEN")
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 
 # Инициализация бота
 bot_app = ApplicationBuilder().token(TOKEN).build()
@@ -41,9 +37,9 @@ def home():
 
 # Webhook для Telegram
 @app.route("/webhook", methods=["POST"])
-async def webhook():
+def webhook():
     update = Update.de_json(request.get_json(), bot_app.bot)
-    await bot_app.process_update(update)
+    asyncio.run(bot_app.process_update(update))  # Используем asyncio.run()
     return "OK"
 
 # Запуск Webhook
