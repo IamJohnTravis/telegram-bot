@@ -5,8 +5,8 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
 # Загружаем переменные окружения
-TOKEN = os.getenv("7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8")  
-WEBHOOK_URL = os.getenv("https://telegram-bot-yvu3.onrender.com")  # Например: "https://your-bot.onrender.com"
+TOKEN = os.getenv("TOKEN")  # Токен бота из Render
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # URL Render (например, https://your-bot.onrender.com)
 
 # Создаем Flask-приложение
 app = Flask(__name__)
@@ -40,7 +40,7 @@ def home():
     return "Бот работает!"
 
 # Webhook для Telegram
-@app.route(f"/{TOKEN}", methods=["POST"])
+@app.route("/webhook", methods=["POST"])
 async def webhook():
     update = Update.de_json(request.get_json(), bot_app.bot)
     await bot_app.process_update(update)
@@ -49,5 +49,5 @@ async def webhook():
 # Запуск Webhook
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(bot_app.bot.setWebhook(f"{WEBHOOK_URL}/{TOKEN}"))
+    loop.run_until_complete(bot_app.bot.setWebhook(f"{WEBHOOK_URL}/webhook"))
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
