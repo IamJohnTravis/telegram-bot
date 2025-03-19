@@ -1,11 +1,18 @@
-from flask import Flask, request
-from telegram import Update
-from telegram.ext import ApplicationBuilder
+import os
 import asyncio
+from flask import Flask, request
+from telegram import Update, ReplyKeyboardMarkup
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
 app = Flask(__name__)
+
+# Загружаем переменные окружения
 TOKEN = os.getenv("TOKEN")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+
+# Проверяем, что TOKEN передан
+if not TOKEN:
+    raise ValueError("❌ Ошибка: переменная окружения TOKEN не найдена! Убедитесь, что она установлена в Render.")
 
 # Инициализация бота
 bot_app = ApplicationBuilder().token(TOKEN).build()
@@ -39,11 +46,10 @@ def home():
 @app.route("/webhook", methods=["POST"])
 def webhook():
     update = Update.de_json(request.get_json(), bot_app.bot)
-    asyncio.run(bot_app.process_update(update))  # Используем asyncio.run()
+    asyncio.run(bot_app.process_update(update))  # Запускаем обработку обновлений
     return "OK"
 
-# Запуск Webhook
+# Запуск Webhook и Flask-сервера
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(bot_app.bot.setWebhook(f"{WEBHOOK_URL}/webhook"))
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    asyncio.run(bot_app.bot.setWebhook(f"{WEBHOOK_URL}/webhook"))  # Устанавливаем Webhook
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))  # Запускаем Flask
