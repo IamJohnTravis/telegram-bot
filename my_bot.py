@@ -5,7 +5,7 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
 # Загружаем токен бота и URL Webhook из переменных окружения
-TOKEN = os.getenv("7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU")  
+TOKEN = os.getenv("7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8")  
 WEBHOOK_URL = os.getenv("https://telegram-bot-yvu3.onrender.com")
 
 # Создаем Flask-приложение
