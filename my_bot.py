@@ -1,3 +1,14 @@
+import os
+import asyncio
+from flask import Flask, request
+from telegram import Update, ReplyKeyboardMarkup
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+
+# Загружаем токен бота и URL Webhook из переменных окружения
+TOKEN = os.getenv("7568589896:AAF6WNjcbv0JoKujy44DsG3RtAe78JE57pU")  
+WEBHOOK_URL = os.getenv("https://telegram-bot-yvu3.onrender.com")
+
+# Создаем Flask-приложение
 app = Flask(__name__)
 
 # Инициализация Telegram-бота
@@ -15,75 +26,26 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=reply_markup
     )
 
-# Функция отображения меню на казахском языке
-async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [
-        ["Консулдық мәселелер"],
-        ["Жұмыс уақыты"],
-        ["Өтініш нысандары"],
-        ["Жиі қойылатын сұрақтар"],
-        ["Байланыс ақпараты"],
-        ["Бастапқы бетке оралу", "қаз/рус"],
-    ]
-    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-
-    await update.message.reply_text("Тілді таңдадыңыз: Қазақша", reply_markup=reply_markup)
-
-# Функция отображения меню на русском языке
-async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [
-        ["Консульские вопросы"],
-        ["Время работы"],
-        ["Шаблоны заявлений"],
-        ["Часто задаваемые вопросы"],
-        ["Контакты"],
-        ["Вернуться в главное меню", "қаз/рус"],
-    ]
-    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-
-    await update.message.reply_text("Вы выбрали язык: Русский", reply_markup=reply_markup)
-
-# Функция обработки выбора пользователя
+# Функция обработки выбора языка
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
-
     if text == "Қазақша":
-        await kazakh_menu(update, context)
+        await update.message.reply_text("Вы выбрали казахский язык.")
     elif text == "Русский":
-        await russian_menu(update, context)
-    elif text == "қаз/рус":
-        await start(update, context)
-    elif text == "Консулдық мәселелер":
-        await update.message.reply_text("Консулдық мәселелер туралы толық ақпарат: https://www.gov.kz/memleket/entities/mfa-busan/activities/58636?lang=ru")
-    elif text == "Жұмыс уақыты":
-        await update.message.reply_text("Консульский отдел работает с 9:30 до 12:30 и с 16:00 до 17:00, кроме среды.")
-    elif text == "Байланыс ақпараты":
-        await update.message.reply_text("Контакты консульства: +(82 51) 466 7001\nОфициальный сайт: https://www.gov.kz/memleket/entities/mfa-busan")
-    elif text == "Консульские вопросы":
-        await update.message.reply_text("Консульские вопросы: https://www.gov.kz/memleket/entities/mfa-busan/activities/58636?lang=ru")
-    elif text == "Время работы":
-        await update.message.reply_text("Прием посетителей по консульским вопросам осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.")
-    elif text == "Шаблоны заявлений":
-        await update.message.reply_text("Шаблоны заявлений: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru")
-    elif text == "Контакты":
-        await update.message.reply_text("Генеральное консульство Республики Казахстан в г. Пусан: +(82 51) 466 7001")
-    elif text == "Вернуться в главное меню":
-        await russian_menu(update, context)
-    elif text == "Бастапқы бетке оралу":
-        await kazakh_menu(update, context)
+        await update.message.reply_text("Вы выбрали русский язык.")
     else:
-        await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
+        await update.message.reply_text("Выберите доступную опцию.")
 
 # Добавляем обработчики команд
 bot_app.add_handler(CommandHandler("start", start))
 bot_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-# Главная страница (чтобы Render не выключал сервер)
+# Главная страница (Render требует открытую страницу)
 @app.route("/", methods=["GET"])
 def home():
     return "Бот работает!"
 
-# Эндпоинт Webhook для Telegram
+# Webhook для Telegram
 @app.route(f"/{TOKEN}", methods=["POST"])
 async def webhook():
     update = Update.de_json(request.get_json(), bot_app.bot)
