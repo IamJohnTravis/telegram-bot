@@ -1,12 +1,15 @@
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update, ReplyKeyboardMarkup, Bot  # ← добавляем Bot сюда
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
 # Токен вашего бота
 TOKEN = "7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8"
+
+# Создаем объект бота
 bot = Bot(token=TOKEN)
 
 # Удаляем вебхук
 bot.delete_webhook()
+
 
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
