@@ -5,22 +5,11 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 # Токен вашего бота
 TOKEN = "7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8"
 
-async def main():
-    bot = Bot(token=TOKEN)
-    await bot.delete_webhook()  # <- await обязательно для асинхронного вызова
-    print("Webhook удалён")
-
-# Запускаем асинхронную функцию
-asyncio.run(main())
-
-
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Кнопки для выбора языка
     keyboard = [
         ["Қазақша", "Русский"],
     ]
-
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
 
     await update.message.reply_text(
@@ -223,11 +212,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
 # Основной блок для запуска бота
-if __name__ == "__main__":
+async def main():
+    # Удаляем webhook (если вдруг он был установлен)
+    bot = Bot(token=TOKEN)
+    await bot.delete_webhook()
+    print("Webhook удалён")
+
+    # Создаём приложение
     app = ApplicationBuilder().token(TOKEN).build()
 
+    # Регистрируем обработчики
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))  # ← вот это нужно
 
-    print("Бот запущен! Нажмите Ctrl+C для остановки.")
-    app.run_polling()
+    # Запускаем polling
+    await app.run_polling()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
