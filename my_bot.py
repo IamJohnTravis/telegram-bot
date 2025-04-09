@@ -3,6 +3,9 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 
 # Токен вашего бота
 TOKEN = "7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8"
+bot = Bot(token=TOKEN)
+
+# Удаляем вебхук
 bot.delete_webhook()
 
 # Функция для обработки команды /start
