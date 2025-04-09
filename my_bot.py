@@ -1,14 +1,17 @@
-from telegram import Update, ReplyKeyboardMarkup, Bot  # ← добавляем Bot сюда
+import asyncio
+from telegram import Bot, Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
 # Токен вашего бота
 TOKEN = "7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8"
 
-# Создаем объект бота
-bot = Bot(token=TOKEN)
+async def main():
+    bot = Bot(token=TOKEN)
+    await bot.delete_webhook()  # <- await обязательно для асинхронного вызова
+    print("Webhook удалён")
 
-# Удаляем вебхук
-bot.delete_webhook()
+# Запускаем асинхронную функцию
+asyncio.run(main())
 
 
 # Функция для обработки команды /start
