@@ -3,12 +3,14 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 import logging
 import os
 import socket
-logger.info(f"🖥️ Бот запущен на хосте: {socket.gethostname()}")
-TOKEN = os.environ["BOT_TOKEN"]
 
-# Логирование
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# После инициализации логгера
+logger.info(f"🖥️ Бот запущен на хосте: {socket.gethostname()}")
+
+TOKEN = os.environ["BOT_TOKEN"]
 
 
 # Функция для обработки команды /start
