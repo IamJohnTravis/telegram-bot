@@ -1,17 +1,14 @@
 import asyncio
+import logging
 from telegram import Bot, Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
+# Настройка логгера
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 # Токен вашего бота
 TOKEN = "7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8"
-
-info = await bot.get_webhook_info()
-if info.url:
-    print(f"❗ ОБНАРУЖЕН webhook: {info.url}")
-    await bot.delete_webhook(drop_pending_updates=True)
-    print("✅ webhook удалён")
-else:
-    print("✅ webhook НЕ установлен")
 
 
 # Функция для обработки команды /start
@@ -220,26 +217,24 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
-# Основной блок для запуска бота
+# Основной блок запуска
 async def main():
-    # Удаляем webhook (если вдруг он был установлен)
     bot = Bot(token=TOKEN)
-    await bot.delete_webhook()
-    print("Webhook удалён")
+  # Проверка и удаление webhook, если активен
+    info = await bot.get_webhook_info()
+    if info.url:
+        logger.warning(f"❗ Найден активный webhook: {info.url}")
+        await bot.delete_webhook(drop_pending_updates=True)
+        logger.info("✅ Webhook успешно удалён")
+    else:
+        logger.info("✅ Webhook НЕ был установлен")
 
-    # Создаём приложение
     app = ApplicationBuilder().token(TOKEN).build()
-
-    # Регистрируем обработчики
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))  # ← вот это нужно
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    # Запускаем polling
+    logger.info("🚀 Бот запущен через polling")
     await app.run_polling()
 
-
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
-
-
