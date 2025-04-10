@@ -1,13 +1,12 @@
 from telegram import Bot, Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 import logging
+import os
+TOKEN = os.environ["BOT_TOKEN"]
 
 # Логирование
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# Токен
-TOKEN = "7568589896:AAGKavPmzB8RvwsqZNHf-t8ameAiI1J3W8w"
 
 
 # Функция для обработки команды /start
