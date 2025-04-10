@@ -1,13 +1,12 @@
-import asyncio
-import logging
 from telegram import Bot, Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+import logging
 
-# Настройка логгера
+# Логирование
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Токен вашего бота
+# Токен
 TOKEN = "7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8"
 
 
@@ -217,29 +216,28 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Пожалуйста, выберите одну из доступных опций.")
 
-# Основной блок запуска
-async def main():
+# ⬇️ Основной запуск бота (без async def main())
+def main():
     bot = Bot(token=TOKEN)
-  # Проверка и удаление webhook, если активен
-    info = await bot.get_webhook_info()
-    if info.url:
-        logger.warning(f"❗ Найден активный webhook: {info.url}")
-        await bot.delete_webhook(drop_pending_updates=True)
-        logger.info("✅ Webhook успешно удалён")
-    else:
-        logger.info("✅ Webhook НЕ был установлен")
 
+    # Удаляем webhook и выводим в лог
+    import asyncio
+    loop = asyncio.get_event_loop()
+    info = loop.run_until_complete(bot.get_webhook_info())
+    if info.url:
+        loop.run_until_complete(bot.delete_webhook(drop_pending_updates=True))
+        logger.info("✅ Webhook удалён")
+    else:
+        logger.info("✅ Webhook не был активен")
+
+    # Запуск приложения
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     logger.info("🚀 Бот запущен через polling")
-    await app.run_polling()
+    app.run_polling()  # <-- работает синхронно, безопасно и стабильно
 
 if __name__ == "__main__":
-    import asyncio
-
-    loop = asyncio.get_event_loop()
-    loop.create_task(main())
-    loop.run_forever()
+    main()
 
