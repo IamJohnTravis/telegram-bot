@@ -2,6 +2,8 @@ from telegram import Bot, Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 import logging
 import os
+import socket
+logger.info(f"🖥️ Бот запущен на хосте: {socket.gethostname()}")
 TOKEN = os.environ["BOT_TOKEN"]
 
 # Логирование
