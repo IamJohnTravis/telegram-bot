@@ -5,6 +5,15 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 # Токен вашего бота
 TOKEN = "7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8"
 
+info = await bot.get_webhook_info()
+if info.url:
+    print(f"❗ ОБНАРУЖЕН webhook: {info.url}")
+    await bot.delete_webhook(drop_pending_updates=True)
+    print("✅ webhook удалён")
+else:
+    print("✅ webhook НЕ установлен")
+
+
 # Функция для обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -230,7 +239,7 @@ async def main():
 
 
 if __name__ == "__main__":
-    import nest_asyncio
-    nest_asyncio.apply()
-    asyncio.get_event_loop().run_until_complete(main())
+    import asyncio
+    asyncio.run(main())
+
 
