@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Токен
-TOKEN = "7568589896:AAGfc9UP9ePvk4NB_LmpmnjCcbm2Hj03OQ8"
+TOKEN = "7568589896:AAGKavPmzB8RvwsqZNHf-t8ameAiI1J3W8w"
 
 
 # Функция для обработки команды /start
