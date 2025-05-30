@@ -22,7 +22,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(
         f"Қайырлы күн  / Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать! \n"
-        "Вас приветствует Генеральное консульство Республики Казахстан в городе Пусан.\n"
+        "Вас приветствует консультант по консульским вопросам для граждан Республики Казахстан в Республике Корея.\n"
         "Чем мы можем вам помочь?",
         reply_markup=reply_markup
     )
