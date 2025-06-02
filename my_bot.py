@@ -198,9 +198,19 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Адрес: г. Пусан 244, Jungang-daero, Dong-gu (48732)\n"
             "Тел: +(82 51) 466 7001, \nКонсульский отдел: +(82 51) 469 7003\n"
             "Официальный сайт: https://www.gov.kz/memleket/entities/mfa-busan\n"
+            "Instagram: https://www.instagram.com/kzbusan/\n"
             "Местонахождение: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n"
             "https://naver.me/5wW6EhBY\n"
-            "Эл. Почта: busan@mfa.kz",
+            "Эл. Почта: busan@mfa.kz\n\n"
+            "Посольство Республики Казахстан в Республике Корея\n"
+"Адрес: г. Сеул, р-н Йонгсан, ул. Джангмунро 53\n"
+"Тел: +82 2 379 9714, +82 2 394 9716\n"
+"Факс (Посольство РК): +82 2 395 9766\n"
+"Консульский отдел: +82 2 749 0096\n"
+"Телефон Консульского отдела для экстренной связи (WhatsApp): +82 10 6572 9311\n"
+"Официальный сайт: https://www.gov.kz/memleket/entities/mfa-seoul?lang=ru\n"
+"Instagram: https://www.instagram.com/consulate_seoul/\n"
+"E-mail: seoul@mfa.kz",
             reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "қаз/рус"]], resize_keyboard=True)
         )
     elif text == "Оформление паспорта гражданина РК":
