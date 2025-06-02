@@ -147,10 +147,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Мекенжай: Пусан қ. 244, Jungang-daero, Dong-gu (48732)\n"
             "Тел: +(82 51) 466 7001, \nКонсулдық бөлім: +(82 51) 469 7003\n"
             "Ресми сайты: https://www.gov.kz/memleket/entities/mfa-busan\n"
-             "Орналасқан жері: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n"
+             "Орналасқан жері: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n" "https://naver.me/5wW6EhBY\n"
             "Instagram парақшасы: https://www.instagram.com/kzbusan/\n"
-            "https://naver.me/5wW6EhBY\n"
-            "E-mail: busan@mfa.kz",
+                       "E-mail: busan@mfa.kz",
                       reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
         )
     elif text == "Консульские вопросы":
