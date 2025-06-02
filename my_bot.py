@@ -189,8 +189,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     elif text == "Шаблоны заявлений":
         await update.message.reply_text(
-            "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru\n
-            С часто задаваемыми вопросами можно ознакомиться по следующей ссылке: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing",
+            "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru\n"
+           "С часто задаваемыми вопросами можно ознакомиться по следующей ссылке: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing",
             reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "қаз/рус"]], resize_keyboard=True)
         )
     elif text == "Контакты":
