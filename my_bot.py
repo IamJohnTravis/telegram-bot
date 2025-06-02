@@ -141,11 +141,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Өтініш нысандарын мына сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk",
             reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
         )
-         elif text == "Жиі қойылатын сұрақтар":
-        await update.message.reply_text(
-            "Жиі қойылатын сұрақтары мына сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk",
-            reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
-        )
     elif text == "Байланыс ақпараты":
         await update.message.reply_text(
             "Қазақстан Республикасының Пусан қаласындағы Бас Консулдығы (Корея Республикасы)\n"
