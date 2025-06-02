@@ -164,12 +164,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 "E-mail: seoul@mfa.kz",
                       reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
         )
-         elif text == "Жиі қойылатын сұрақтар":
-        await update.message.reply_text(
-            "Жиі қойылатын сұрақтар мына сілтемеден жүктеуге болады: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing",
-            reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
-    )
-    elif text == "Консульские вопросы":
+             elif text == "Консульские вопросы":
         keyboard = [
             ["Оформление паспорта гражданина РК"],
             ["Государственная регистрация рождения ребенка за рубежом"],
