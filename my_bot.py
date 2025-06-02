@@ -149,7 +149,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Ресми сайты: https://www.gov.kz/memleket/entities/mfa-busan\n"
              "Орналасқан жері: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n" "https://naver.me/5wW6EhBY\n"
             "Instagram парақшасы: https://www.instagram.com/kzbusan/\n"
-                       "E-mail: busan@mfa.kz",
+                       "E-mail: busan@mfa.kz"
+            "Қазақстан Республикасының Корея Республикасындағы Елшілігі\n"
+"Мекенжай: Сеул қ., Йонгсан ауданы, Джангмунро көш., 53\n"
+"Тел: +82 2 379 9714, +82 2 394 9716\n"
+"Факс (Елшілік): +82 2 395 9766\n"
+"Консулдық бөлім: +82 2 749 0096\n"
+"Консулдық бөлімнің Жедел желі телефоны (WhatsApp): +82 10 6572 9311\n"
+"Ресми сайты: https://www.gov.kz/memleket/entities/mfa-seoul?lang=kk\n"
+"Instagram парақшасы: https://www.instagram.com/consulate_seoul/\n"
+"E-mail: seoul@mfa.kz",
                       reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
         )
     elif text == "Консульские вопросы":
