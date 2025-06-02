@@ -149,7 +149,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Ресми сайты: https://www.gov.kz/memleket/entities/mfa-busan\n"
              "Орналасқан жері: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n" "https://naver.me/5wW6EhBY\n"
             "Instagram парақшасы: https://www.instagram.com/kzbusan/\n"
-                       "E-mail: busan@mfa.kz"
+                       "E-mail: busan@mfa.kz\n\n"
             "Қазақстан Республикасының Корея Республикасындағы Елшілігі\n"
 "Мекенжай: Сеул қ., Йонгсан ауданы, Джангмунро көш., 53\n"
 "Тел: +82 2 379 9714, +82 2 394 9716\n"
