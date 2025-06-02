@@ -132,7 +132,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == "Жұмыс уақыты":
         await update.message.reply_text(
             "Жұмыс тәртібі:\n"
-            "Келушілерді консулдық мәселелер бойынша қабылдау дүйсенбі, сейсенбі, бейсенбі және жұма күндері сағат 9.30-ден 12.30-ге және 16.00-ден 17.00-ге дейін жүзеге асырылады.\n"
+            "Келушілерді консулдық мәселелер бойынша қабылдау ҚР Сеул қаласындағы Елшілігінде және Пусан қаласындағы Бас консулдығында дүйсенбі, сейсенбі, бейсенбі және жұма күндері сағат 9.30-ден 12.30-ге және 16.00-ден 17.00-ге дейін жүзеге асырылады.\n"
             "Сәрсенбі күні — қабылдамайтын күн.\n"
             "Сенбі және жексенбі күндері, сондай-ақ Қазақстан мереке күндері - демалыс күні."
         )
@@ -157,6 +157,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 "Консулдық бөлім: +82 2 749 0096\n"
 "Консулдық бөлімнің Жедел желі телефоны (WhatsApp): +82 10 6572 9311\n"
 "Ресми сайты: https://www.gov.kz/memleket/entities/mfa-seoul?lang=kk\n"
+              "Орналасқан жері: https://maps.app.goo.gl/ovcYJsPmsm1p9cvn9\n"
 "Instagram парақшасы: https://www.instagram.com/consulate_seoul/\n"
 "E-mail: seoul@mfa.kz",
                       reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
@@ -183,7 +184,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     elif text == "Время работы":
         await update.message.reply_text(
-            "Прием посетителей по консульским вопросам осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.\n"
+            "Прием посетителей по консульским вопросам в Посольстве РК в г. Сеул и Генеральном консульстве РК в г. Пусан осуществляется в понедельник, вторник, четверг и пятницу с 9.30 до 12.30 ч., выдача готовых документов с 16.00 до 17.00 ч.\n"
             "Среда — неприемный день.\n"
             "Суббота, воскресенье, а также праздничные дни Казахстана — выходные дни."
         )
@@ -210,6 +211,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 "Телефон Консульского отдела для экстренной связи (WhatsApp): +82 10 6572 9311\n"
 "Официальный сайт: https://www.gov.kz/memleket/entities/mfa-seoul?lang=ru\n"
 "Instagram: https://www.instagram.com/consulate_seoul/\n"
+            "Местонахождение:https://maps.app.goo.gl/ovcYJsPmsm1p9cvn9\n"
 "E-mail: seoul@mfa.kz",
             reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "қаз/рус"]], resize_keyboard=True)
         )
