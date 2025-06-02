@@ -21,10 +21,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
 
     await update.message.reply_text(
-        f"Қайырлы күн  / Добрый день, {update.effective_user.first_name}! Қош келдіңіз / Добро пожаловать! \n\n"
-         "Бұл Корея Республикасындағы Қазақстан Республикасының азаматтарына консулдық мәселелер бойынша көмек көрсету үшін кеңесші-Бот.\n"
-        "Қандай сұрақтарыңыз бар?\n\n"
-        "Вас приветствует Бот-консультант по консульским вопросам для граждан Республики Казахстан в Республике Корея.\n"
+        f"Қайырлы күн  / Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать! \n"
+        "Вас приветствует консультант по консульским вопросам для граждан Республики Казахстан в Республике Корея.\n"
         "Чем мы можем вам помочь?",
         reply_markup=reply_markup
     )
@@ -35,8 +33,8 @@ async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Консулдық мәселелер"],
         ["Жұмыс уақыты"],
         ["Өтініш нысандары"],
-        ["Байланыс ақпараты"],
         ["Жиі қойылатын сұрақтар"],
+        ["Байланыс ақпараты"],
         ["Бастапқы бетке оралу", "қаз/рус"],
     ]
 
@@ -53,8 +51,8 @@ async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Консульские вопросы"],
         ["Время работы"],
         ["Шаблоны заявлений"],
-        ["Контакты"],
         ["Часто задаваемые вопросы"],
+        ["Контакты"],
         ["Вернуться в главное меню", "қаз/рус"],
     ]
 
@@ -164,7 +162,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 "E-mail: seoul@mfa.kz",
                       reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
         )
-             elif text == "Консульские вопросы":
+    elif text == "Консульские вопросы":
         keyboard = [
             ["Оформление паспорта гражданина РК"],
             ["Государственная регистрация рождения ребенка за рубежом"],
