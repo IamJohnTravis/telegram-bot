@@ -33,8 +33,7 @@ async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Консулдық мәселелер"],
         ["Жұмыс уақыты"],
         ["Өтініш нысандары"],
-        ["Жиі қойылатын сұрақтар"],
-        ["Байланыс ақпараты"],
+            ["Байланыс ақпараты"],
         ["Бастапқы бетке оралу", "қаз/рус"],
     ]
 
@@ -51,7 +50,6 @@ async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Консульские вопросы"],
         ["Время работы"],
         ["Шаблоны заявлений"],
-        ["Часто задаваемые вопросы"],
         ["Контакты"],
         ["Вернуться в главное меню", "қаз/рус"],
     ]
@@ -138,7 +136,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     elif text == "Өтініш нысандары":
         await update.message.reply_text(
-            "Өтініш нысандарын мына сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk",
+            "Өтініш нысандарын келесі сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk\n"
+              "Жиі қойылатын сұрақтармен осы сілтеме арқылы танысуыңызға болады: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing\n",
             reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
         )
     elif text == "Байланыс ақпараты":
@@ -190,7 +189,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     elif text == "Шаблоны заявлений":
         await update.message.reply_text(
-            "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru",
+            "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru\n
+            С часто задаваемыми вопросами можно ознакомиться по следующей ссылке: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing",
             reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "қаз/рус"]], resize_keyboard=True)
         )
     elif text == "Контакты":
