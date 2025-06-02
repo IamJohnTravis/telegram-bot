@@ -21,7 +21,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
 
     await update.message.reply_text(
-        f"Қайырлы күн  / Добрый день, {update.effective_user.first_name}! Қош келдіңіз/Добро пожаловать! \n"
+        f"Қайырлы күн  / Добрый день, {update.effective_user.first_name}! Қош келдіңіз / Добро пожаловать! \n\n"
+         "Бұл Корея Республикасындағы Қазақстан Республикасының азаматтарына консулдық мәселелер бойынша көмек көрсету үшін кеңесші-Бот.\n"
+        "Қандай сұрақтарыңыз бар?\n\n"
         "Вас приветствует консультант по консульским вопросам для граждан Республики Казахстан в Республике Корея.\n"
         "Чем мы можем вам помочь?",
         reply_markup=reply_markup
