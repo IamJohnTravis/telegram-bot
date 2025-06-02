@@ -144,14 +144,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     elif text == "Байланыс ақпараты":
         await update.message.reply_text(
-            "Қазақстан Республикасының Пусан қаласындағы Бас Консулдығы (Корея Республикасы)\n"
+            "ҚАЗАҚСТАН РЕСПУБЛИКАСЫНЫҢ ПУСАН ҚАЛАСЫНДАҒЫ (КОРЕЯ РЕСПУБЛИКАСЫ) БАС КОНСУЛДЫҒЫНЫҢ БАЙЛАНЫС АҚПАРАТЫ \n"
             "Мекенжай: Пусан қ. 244, Jungang-daero, Dong-gu (48732)\n"
             "Тел: +(82 51) 466 7001, \nКонсулдық бөлім: +(82 51) 469 7003\n"
             "Ресми сайты: https://www.gov.kz/memleket/entities/mfa-busan\n"
              "Орналасқан жері: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n" "https://naver.me/5wW6EhBY\n"
             "Instagram парақшасы: https://www.instagram.com/kzbusan/\n"
                        "E-mail: busan@mfa.kz\n\n"
-            "Қазақстан Республикасының Корея Республикасындағы Елшілігі\n"
+            "ҚАЗАҚСТАН РЕСПУБЛИКАСЫНЫҢ КОРЕЯ РЕСПУБЛИКАСЫНДАҒЫ ЕЛШІЛІГІНІҢ БАЙЛАНЫС АҚПАРАТЫ\n"
 "Мекенжай: Сеул қ., Йонгсан ауданы, Джангмунро көш., 53\n"
 "Тел: +82 2 379 9714, +82 2 394 9716\n"
 "Факс (Елшілік): +82 2 395 9766\n"
@@ -197,7 +197,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     elif text == "Контакты":
         await update.message.reply_text(
-            "Генеральное консульство Республики Казахстан в г. Пусан (Республика Корея):\n"
+            "КОНТАКТНАЯ ИНФОРМАЦИЯ ГЕНЕРАЛЬНОГО КОНСУЛЬСТВА РЕСПУБЛИКИ КАЗАХСТАН В Г. ПУСАН (РЕСПУБЛИКА КОРЕЯ):\n"
             "Адрес: г. Пусан 244, Jungang-daero, Dong-gu (48732)\n"
             "Тел: +(82 51) 466 7001, \nКонсульский отдел: +(82 51) 469 7003\n"
             "Официальный сайт: https://www.gov.kz/memleket/entities/mfa-busan\n"
@@ -205,7 +205,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Местонахождение: https://maps.app.goo.gl/AwckvtyLfNTZfjQZ8\n"
             "https://naver.me/5wW6EhBY\n"
             "Эл. Почта: busan@mfa.kz\n\n"
-            "Посольство Республики Казахстан в Республике Корея\n"
+            "КОНТАКТНАЯ ИНФОРМАЦИЯ ПОСОЛЬСТВА РЕСПУБЛИКИ КАЗАХСТАН В РЕСПУБЛИКЕ КОРЕЯ Г.СЕУЛ\n"
 "Адрес: г. Сеул, р-н Йонгсан, ул. Джангмунро 53\n"
 "Тел: +82 2 379 9714, +82 2 394 9716\n"
 "Факс (Посольство РК): +82 2 395 9766\n"
