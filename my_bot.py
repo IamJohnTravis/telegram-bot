@@ -136,7 +136,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     elif text == "Өтініш нысандары":
         await update.message.reply_text(
-            "Өтініш нысандарын келесі сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk\n"
+            "Өтініш нысандарын келесі сілтемеден жүктеуге болады: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=kk\n\n\n"
               "Жиі қойылатын сұрақтармен осы сілтеме арқылы танысуыңызға болады: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing\n",
             reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
         )
@@ -189,7 +189,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     elif text == "Шаблоны заявлений":
         await update.message.reply_text(
-            "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru\n"
+            "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru\n\n\n"
            "С часто задаваемыми вопросами можно ознакомиться по следующей ссылке: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing",
             reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "қаз/рус"]], resize_keyboard=True)
         )
