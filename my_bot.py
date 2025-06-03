@@ -31,21 +31,20 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Функция для отображения меню на казахском языке
 async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
-   keyboard = [
-    ["Консулдық мәселелер"],
-    ["Жұмыс уақыты"],
-    ["Өтініш нысандары"],
-    ["Жиі қойылатын сұрақтар"],
-    ["Байланыс ақпараты"],
-    ["Бастапқы бетке оралу", "қаз/рус"],
- ]
-reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+    keyboard = [
+        ["Консулдық мәселелер"],
+        ["Жұмыс уақыты"],
+        ["Өтініш нысандары"],
+        ["Жиі қойылатын сұрақтар"],
+        ["Байланыс ақпараты"],
+        ["Бастапқы бетке оралу", "қаз/рус"],
+    ]
+    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
     await update.message.reply_text(
         "Тілді таңдадыңыз: Қазақша",
         reply_markup=reply_markup
     )
-
 # Функция для отображения меню на русском языке
 async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
