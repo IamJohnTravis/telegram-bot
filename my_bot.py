@@ -35,26 +35,26 @@ async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["Консулдық мәселелер"],
         ["Жұмыс уақыты"],
         ["Өтініш нысандары"],
-        ["Жиі қойылатын сұрақтар"],
-        ["Байланыс ақпараты"],
+            ["Байланыс ақпараты"],
         ["Бастапқы бетке оралу", "қаз/рус"],
     ]
+
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
     await update.message.reply_text(
         "Тілді таңдадыңыз: Қазақша",
         reply_markup=reply_markup
     )
+
 # Функция для отображения меню на русском языке
 async def russian_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-    ["Консульские вопросы"],
-    ["Время работы"],
-    ["Шаблоны заявлений"],
-    ["Часто задаваемые вопросы"],
-    ["Контакты"],
-    ["Вернуться в главное меню", "қаз/рус"],
-]
+        ["Консульские вопросы"],
+        ["Время работы"],
+        ["Шаблоны заявлений"],
+        ["Контакты"],
+        ["Вернуться в главное меню", "қаз/рус"],
+    ]
 
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
@@ -142,11 +142,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
               "Жиі қойылатын сұрақтармен осы сілтеме арқылы танысуыңызға болады: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing\n",
             reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
         )
-         elif text == "Жиі қойылатын сұрақтар":
-        await update.message.reply_text(
-            "Жиі қойылатын сұрақтармен осы сілтеме арқылы танысуыңызға болады: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing",
-            reply_markup=ReplyKeyboardMarkup([["Бастапқы бетке оралу", "қаз/рус"]], resize_keyboard=True)
-        )
     elif text == "Байланыс ақпараты":
         await update.message.reply_text(
             "ҚАЗАҚСТАН РЕСПУБЛИКАСЫНЫҢ ПУСАН ҚАЛАСЫНДАҒЫ (КОРЕЯ РЕСПУБЛИКАСЫ) БАС КОНСУЛДЫҒЫНЫҢ БАЙЛАНЫС АҚПАРАТЫ \n"
@@ -198,11 +193,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "Шаблоны заявлений можно найти по ссылке: https://www.gov.kz/memleket/entities/mfa-busan/documents/details/753610?lang=ru\n\n\n"
            "С часто задаваемыми вопросами можно ознакомиться по следующей ссылке: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing",
-            reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "қаз/рус"]], resize_keyboard=True)
-        )
-            elif text == "Часто задаваемые вопросы":
-        await update.message.reply_text(
-            "С часто задаваемыми вопросами можно ознакомиться по следующей ссылке: https://drive.google.com/file/d/1bL-EY9gUil7mqhDxMaWVNE9T6wbzJeGB/view?usp=sharing",
             reply_markup=ReplyKeyboardMarkup([["Вернуться в главное меню", "қаз/рус"]], resize_keyboard=True)
         )
     elif text == "Контакты":
