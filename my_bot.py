@@ -39,7 +39,6 @@ async def kazakh_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ["Байланыс ақпараты"],
     ["Бастапқы бетке оралу", "қаз/рус"],
 ]
-
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
     await update.message.reply_text(
